@@ -76,8 +76,17 @@ Once a message is generated, you'll be prompted to:
 
 ---
 
-## Developer Information
+## First Tested On
+Commify was initially tested on Matuco19's machine with the settings:
+- **OS:** Windows11 Pro
+- **RAM:** 32gb DDR5
+- **CPU:** AMD Ryzen 5 5600g
+- **GPU:** AMD Radeon(TM) Graphics
+- **Ollama Model:** dolphin-llama3:latest
+With these settings, Commify was able to generate a commit message in 3 seconds!
+---
 
+## Developer Information
 Commify is developed and maintained by **Matuco19**.  
 - Website: [matuco19.com](https://matuco19.com)  
 - Commify Website: [matuco19.com/Commify](https://matuco19.com/Commify)

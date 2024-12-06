@@ -77,6 +77,7 @@ Once a message is generated, you'll be prompted to:
 
 Commify is developed and maintained by **Matuco19**.  
 - Website: [matuco19.com](https://matuco19.com)  
+- Commify Website: [matuco19.com/Commify](https://matuco19.com/Commify)
 - GitHub: [github.com/Matuco19](https://github.com/Matuco19)
 
 ---

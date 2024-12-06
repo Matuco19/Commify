@@ -11,7 +11,7 @@ done = False
 
 # Function to animate loading
 def animate():
-    for c in itertools.cycle(['⣾', '⣷', '⣯', '⣟', '⡿', '⢿', '⣻', '⣽']):
+    for c in itertools.cycle(['⣾ ', '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ']):
         if done:
             break
         terminal.write('\rloading ' + c)

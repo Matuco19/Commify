@@ -84,6 +84,7 @@ Once a message is generated, you'll be prompted to:
 >- **CPU:** AMD Ryzen 5 5600g
 >- **GPU:** AMD Radeon(TM) Graphics
 >- **Ollama Model:** dolphin-llama3:latest
+>
 >With these settings, Commify was able to generate a commit message in 3 seconds!
 
 Confirmed successful runs (with no errors) on the following:

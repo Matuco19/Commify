@@ -64,6 +64,7 @@ def display_help():
     print("""
 Commify: You Should Commit Yourself
 Created by Matuco19 (https://github.com/Matuco19/Commify)
+Website: https://matuco19.com/Commify
 Usage: Commify [path] [options]
 
 Options:

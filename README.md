@@ -3,7 +3,7 @@
 Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. See [Commify](https://matuco19.com/Commify) website to know more.
 
 >[!Caution]
->Commify can be slow without a good GPU or a very large AI model
+>Commify can be slow without a good GPU or a very large AI model.
 
 ---
 
@@ -25,7 +25,7 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
    ```
 
 2. **Install dependencies:**
-   Ensure you have Python 3.8+ and `pip` installed. Then, install the required libraries:
+   Ensure you have `Python 3.8+` and `pip` installed. Then, install the required libraries:
    ```bash
    pip install -r requirements.txt
    ```

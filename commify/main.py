@@ -2,6 +2,23 @@ import ollama
 from git import Repo
 import argparse
 import os
+import itertools
+from sys import stdout as terminal
+from time import sleep
+from threading import Thread
+
+done = False
+
+# Function to animate loading
+def animate():
+    for c in itertools.cycle(['⣾', '⣷', '⣯', '⣟', '⡿', '⢿', '⣻', '⣽']):
+        if done:
+            break
+        terminal.write('\rloading ' + c)
+        terminal.flush()
+        sleep(0.1)
+    terminal.write('\rDone!    '+ "\n")
+    terminal.flush()
 
 # Function to get the diff of the current repository
 def get_diff(repo):
@@ -9,6 +26,7 @@ def get_diff(repo):
 
 # Function to generate the commit message using ollama (maybe I'll do it for other providers like Openai, g4f, and others)
 def generate_commit_message(diff, lang='english', emoji=True, model='llama3.1'):
+    global done
     emoji_instructions = (
         "Include relevant emojis in the message where appropriate, as per conventional commit guidelines."
         if emoji else
@@ -35,6 +53,9 @@ Diff to analyze:
 {diff}
 """
     try:
+        # Start loading animation in a separate thread
+        t = Thread(target=animate)
+        t.start()
         response = ollama.chat(model=model, messages=[
             {'role': 'system', 'content': system_prompt}
         ])
@@ -43,8 +64,14 @@ Diff to analyze:
         if not commit_message:
             raise ValueError("Error: the generated commit message is empty.")
         return commit_message
+    
     except:
-        print(f"Error: Is it if you have Ollama installed? Or perhaps the requested AI model ({model}) is not installed on your system.")
+        raise ValueError(f"Error: Is it if you have Ollama installed? Or perhaps the requested AI model ({model}) is not installed on your system.")
+
+    finally:
+        # Stop the animation
+        done = True
+        t.join()
 
 
 

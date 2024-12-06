@@ -104,6 +104,7 @@ Options:
 
 # Main CLI function
 def main():
+    global done
     parser = argparse.ArgumentParser(description='CLI to generate commit messages and commit to the current repository.', add_help=False)
     parser.add_argument('path', type=str, nargs='?', help='Path to the Git repository directory (optional, defaults to the current directory).')
     parser.add_argument('--lang', type=str, default='english', help='Language for the commit message (default: english)')
@@ -165,6 +166,7 @@ def main():
                     break
                 elif decision == 'n':
                     print('Generating a new commit message...\n')
+                    done = False
                 elif decision == 'c':
                     print('Operation canceled.')
                     break

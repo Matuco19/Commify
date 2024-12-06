@@ -34,14 +34,18 @@ Example format:
 Diff to analyze:
 {diff}
 """
-    response = ollama.chat(model=model, messages=[
-        {'role': 'system', 'content': system_prompt}
-    ])
-    
-    commit_message = response.get('message', {}).get('content', '').strip()
-    if not commit_message:
-        raise ValueError("Error: the generated commit message is empty.")
-    return commit_message
+    try:
+        response = ollama.chat(model=model, messages=[
+            {'role': 'system', 'content': system_prompt}
+        ])
+        
+        commit_message = response.get('message', {}).get('content', '').strip()
+        if not commit_message:
+            raise ValueError("Error: the generated commit message is empty.")
+        return commit_message
+    except:
+        print(f"Error: Is it if you have Ollama installed? Or perhaps the requested AI model ({model}) is not installed on your system.")
+
 
 
 def commit_changes(repo, commit_message):

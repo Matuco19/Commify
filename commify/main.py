@@ -6,6 +6,7 @@ import itertools
 from sys import stdout as terminal
 from time import sleep
 from threading import Thread
+from commify.version import __version__
 
 done = False
 
@@ -88,10 +89,11 @@ def push_to_origin(repo):
 
 # Function to display the help message
 def display_help():
-    print("""
+    print(f"""
 Commify: You Should Commit Yourself
 Created by Matuco19 (https://github.com/Matuco19/Commify)
 Website: https://matuco19.com/Commify
+Commify Version: {__version__}
 Usage: Commify [path] [options]
 
 Options:

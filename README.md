@@ -1,13 +1,14 @@
 # Commify
 
-Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. See [Commify](https://matuco19.com/Commify) website to know more. Don't forget to star the project!
+Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. See [Commify](https://matuco19.com/Commify) website to know more. Don't forget to :star: the project!
 
 >[!Caution]
->Ollama provider can be slow without a good GPU or a very large AI model. 
+>Ollama provider can be slow without a good GPU or a very large AI model.
 
 ---
 
 ## Features
+
 - **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` local AI provider or `G4F` AI provider.
 - **Emoji Support:** Optionally include relevant emojis in commit messages.
 - **Language Support:** Generate commit messages in the language of your choice.
@@ -20,6 +21,7 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 ## Installation
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/Matuco19/commify.git
    cd commify
@@ -27,6 +29,7 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 2. **Install dependencies:**
    Ensure you have `Python 3.8+` and `pip` installed. Then, install the required libraries:
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -39,6 +42,7 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 3. **Add Commify to your PATH:**
    Make the script accessible globally by adding it to your system's PATH:
+
    ```bash
    pip install .
    ```
@@ -54,19 +58,26 @@ commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_m
 ```
 
 ### Example
+
 Using Ollama Provider:
+
 ```bash
 commify /path/to/repo --lang english --emoji True --model llama3.1 --provider ollama
 ```
+
 Using G4F Provider:
+
 ```bash
 commify /path/to/repo --lang english --emoji True --model gpt-4o --provider g4f
 ```
+
 Without Specifying The Repository Path:
+
 ```bash
 cd /path/to/repo
 commify --lang english --emoji True --model llama3.1 --provider ollama
 ```
+
 ### Arguments
 
 - **`path`:** Path to the Git repository. (If the repository path is not specified, the path Commify is running from will be used)
@@ -81,7 +92,9 @@ commify --lang english --emoji True --model llama3.1 --provider ollama
 ## Features in Detail
 
 ### Commit Message Review
+
 Once a message is generated, you'll be prompted to:
+
 - **Accept** the message (`y`).
 - **Reject** the message will be generated again (`n`).
 - **Cancel** the message (`c`).
@@ -91,36 +104,44 @@ Once a message is generated, you'll be prompted to:
 ## Testing Information
 
 Confirmed successful runs (with no errors) on the following:
+
 - **OS:**
   - Windows11
   - Windows10
 
 - **Python:**
-   - Python 3.11.9 64-bit
+  - Python 3.11.9 64-bit
 
 - **AI Models:**
-   - llama3.2-vision `Ollama`
-   - llama3.1 `Ollama`
-   - dolphin-llama3 `Ollama`
-   - gpt-4o `G4F`
-   - gpt-4o-mini `G4F`
+  - llama3.2-vision `Ollama`
+  - llama3.1 `Ollama`
+  - dolphin-llama3 `Ollama`
+  - gpt-4o `G4F`
+  - gpt-4o-mini `G4F`
 
 Let us know if it runs on your machine too!
 
 ---
+
 ## Developer Information
-Commify is developed and maintained by **Matuco19**.  
+
+Commify is developed and maintained by **Matuco19**.
+
 - Matuco19 Website: [matuco19.com](https://matuco19.com)  
 - GitHub: [github.com/Matuco19](https://github.com/Matuco19)
+- Discord Server: [discord.gg/Matuco19Server0](https://discord.gg/hp7yCxHJBw)
 
 ---
 
 ## License
-This project is open-source and available under the [MATCO-Open-Source License](https://matuco19.com/licenses/MATCO-Open-Source). See the `LICENSE` file for details. 
+
+![License-MATCO Open Source V1](https://img.shields.io/badge/License-MATCO_Open_Source_V1-blue.svg)
+This project is open-source and available under the [MATCO-Open-Source License](https://matuco19.com/licenses/MATCO-Open-Source). See the `LICENSE` file for details.
 
 ---
 
 ### Contributions
+
 Contributions are welcome! Feel free to open an issue or submit a pull request on [GitHub](https://github.com/Matuco19/commify).
 
 ---

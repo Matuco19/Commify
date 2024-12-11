@@ -1,3 +1,4 @@
 ollama
 gitpython
 argparse
+g4f[all]

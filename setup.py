@@ -11,6 +11,7 @@ setup(
     install_requires=[
         'ollama',
         'GitPython',
+        'g4f',
     ],
     entry_points={
         'console_scripts': [

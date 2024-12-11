@@ -1,4 +1,5 @@
 import ollama
+from g4f.client import Client
 from git import Repo
 import argparse
 import os
@@ -25,8 +26,8 @@ def animate():
 def get_diff(repo):
     return repo.git.diff('--cached')
 
-# Function to generate the commit message using ollama (maybe I'll do it for other providers like Openai, g4f, and others)
-def generate_commit_message(diff, lang='english', emoji=True, model='llama3.1'):
+# Function to generate the commit message using providers
+def generate_commit_message(diff, lang='english', emoji=True, model='llama3.1', provider='ollama'):
     global done
     emoji_instructions = (
         "Include relevant emojis in the message where appropriate, as per conventional commit guidelines."
@@ -45,10 +46,11 @@ You are an assistant tasked with generating professional Git commit messages. Yo
 5. Always return only the commit message. Do not include explanations, examples, or additional text outside the message.
 
 Example format:
-  feat: add new feature for generating commit messages 🚀
-  Detailed description explaining the commit.
-  - Implemented new feature X
-  - Updated file Y with change Z
+ feat: add new feature for generating commit messages 🚀
+  Implemented a new feature to generate commit messages based on Git diffs.
+  - Introduced new function to analyze diffs
+  - Updated the commit generation logic
+
 
 Diff to analyze:
 {diff}
@@ -57,17 +59,34 @@ Diff to analyze:
         # Start loading animation in a separate thread
         t = Thread(target=animate)
         t.start()
-        response = ollama.chat(model=model, messages=[
-            {'role': 'system', 'content': system_prompt}
-        ])
+        # default ollama provider (run in local machine)
+        if provider == 'ollama':
+            response = ollama.chat(model=model, messages=[
+                {'role': 'system', 'content': system_prompt}
+            ])
+            commit_message = response.get('message', {}).get('content', '').strip()
+
+        # gpt4free provider (openai api without apikey use)
+        elif provider == 'g4f':
+            client = Client()
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {'role': 'system', 'content': system_prompt}
+            ])
+            commit_message = response.choices[0].message.content
+        else:
+            raise ValueError(f"Error: You did not specify the provider or the provider is not currently available on Commify, if this is the case, do not hesitate to create an Issue or Pull Request to add the requested provider!")
         
-        commit_message = response.get('message', {}).get('content', '').strip()
-        if not commit_message:
+        if not commit_message or commit_message=='None':
             raise ValueError("Error: the generated commit message is empty.")
         return commit_message
     
     except:
-        raise ValueError(f"Error: Is it if you have Ollama installed? Or perhaps the requested AI model ({model}) is not installed on your system.")
+        if provider == 'ollama':
+            raise ValueError(f"Error: Is it if you have Ollama installed? Or perhaps the requested AI model ({model}) is not installed on your system.")
+        elif provider == 'g4f':
+            raise ValueError(f"Error: Gpt4free services are not available, contact gpt4free contributors for more information (https://github.com/xtekky/gpt4free). Or perhaps the requested AI model ({model}) is not available.")
 
     finally:
         # Stop the animation
@@ -101,6 +120,7 @@ Options:
   --lang            Language for the commit message (default: english).
   --emoji           Specifies whether the commit message should include emojis (True/False).
   --model           The AI model to use for generating commit messages (default: llama3.1).
+  --provider        The AI provider to use for generating commit messages (default: ollama)
   --help            Displays this help message.
     """)
 
@@ -111,7 +131,8 @@ def main():
     parser.add_argument('path', type=str, nargs='?', help='Path to the Git repository directory (optional, defaults to the current directory).')
     parser.add_argument('--lang', type=str, default='english', help='Language for the commit message (default: english)')
     parser.add_argument('--emoji', type=bool, default=True, help='Specifies whether the commit message should include emojis (default: True)')
-    parser.add_argument('--model', type=str, default='llama3.1', help='The AI model to use for generating commit messages (default: llama3.1)')
+    parser.add_argument('--model', type=str, required=True, default='llama3.1', help='The AI model to use for generating commit messages (default: llama3.1)')
+    parser.add_argument('--provider', type=str, required=True, default='ollama', help='The AI provider to use for generating commit messages (default: ollama)')
     parser.add_argument('--help', action='store_true', help='Displays the help information')
 
     args = parser.parse_args()
@@ -126,6 +147,7 @@ def main():
     lang = args.lang
     emoji = args.emoji
     model = args.model
+    provider = args.provider
 
     # Check if the provided path is valid
     if not os.path.isdir(repo_path):
@@ -149,7 +171,7 @@ def main():
         # Generate the commit message
         try:
             while True:
-                commit_message = generate_commit_message(diff, lang, emoji, model)
+                commit_message = generate_commit_message(diff, lang, emoji, model, provider)
                 print(f"\nGenerated commit message:\n{commit_message}\n")
 
                 # Ask the user if they want to accept the message

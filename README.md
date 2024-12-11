@@ -3,14 +3,15 @@
 Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. See [Commify](https://matuco19.com/Commify) website to know more. Don't forget to star the project!
 
 >[!Caution]
->Commify can be slow without a good GPU or a very large AI model. 
+>Ollama provider can be slow without a good GPU or a very large AI model. 
 
 ---
 
 ## Features
-- **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` AI model.
+- **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` local AI provider or `G4F` AI provider.
 - **Emoji Support:** Optionally include relevant emojis in commit messages.
 - **Language Support:** Generate commit messages in the language of your choice.
+- **Customizable Providers:** Specify the AI provider to use (g4f or ollama).
 - **Interactive Review System:** Review and approve generated messages or request new ones.
 - **Customizable Models:** Specify the AI model to use.
 
@@ -31,7 +32,8 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
    ```
 
    Required libraries include:
-   - `ollama` (for AI chat capabilities)
+   - `ollama` (for local AI chat capabilities)
+   - `g4f` (for AI chat capabilities)
    - `gitpython` (to interact with Git repositories)
    - `argparse` (built-in Python library for parsing command-line arguments)
 
@@ -48,18 +50,28 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 Run the `commify` CLI with the desired options:
 
 ```bash
-commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_model>]
+commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_model>] [--provider <AI_PROVIDER>]
 ```
 
 ### Example
+Using Ollama Provider:
 ```bash
-commify /path/to/repo --lang english --emoji True --model llama3.1
+commify /path/to/repo --lang english --emoji True --model llama3.1 --provider ollama
 ```
-
+Using G4F Provider:
+```bash
+commify /path/to/repo --lang english --emoji True --model gpt-4o --provider g4f
+```
+Without Specifying The Repository Path:
+```bash
+cd /path/to/repo
+commify --lang english --emoji True --model llama3.1 --provider ollama
+```
 ### Arguments
 
 - **`path`:** Path to the Git repository. (If the repository path is not specified, the path Commify is running from will be used)
 - **`--lang`:** Language for the commit message (default: `english`).
+- **`--provider`:** AI provider to use for generating messages (default: `ollama`).
 - **`--emoji`:** Include emojis in the commit message (`True` or `False`, default: `True`).
 - **`--model`:** AI model to use for generating messages (default: `llama3.1`).
 - **`--help`:** Display all available parameters and their descriptions.
@@ -77,15 +89,6 @@ Once a message is generated, you'll be prompted to:
 ---
 
 ## Testing Information
->[!NOTE]
->Commify was initially tested on Matuco19's machine with the settings:
->- **OS:** Windows11 Pro
->- **RAM:** 32gb DDR5
->- **CPU:** AMD Ryzen 5 5600g
->- **GPU:** AMD Radeon(TM) Graphics
->- **Ollama Model:** dolphin-llama3:latest
->
->With these settings, Commify was able to generate a commit message in 3 seconds!
 
 Confirmed successful runs (with no errors) on the following:
 - **OS:**
@@ -96,15 +99,18 @@ Confirmed successful runs (with no errors) on the following:
    - Python 3.11.9 64-bit
 
 - **AI Models:**
-   - llama3.2-vision
-   - llama3.1
-   - dolphin-llama3
+   - llama3.2-vision `Ollama`
+   - llama3.1 `Ollama`
+   - dolphin-llama3 `Ollama`
+   - gpt-4o `G4F`
+   - gpt-4o-mini `G4F`
+
+Let us know if it runs on your machine too!
 
 ---
 ## Developer Information
 Commify is developed and maintained by **Matuco19**.  
-- Website: [matuco19.com](https://matuco19.com)  
-- Commify Website: [matuco19.com/Commify](https://matuco19.com/Commify)
+- Matuco19 Website: [matuco19.com](https://matuco19.com)  
 - GitHub: [github.com/Matuco19](https://github.com/Matuco19)
 
 ---

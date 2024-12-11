@@ -8,7 +8,9 @@ from sys import stdout as terminal
 from time import sleep
 from threading import Thread
 from commify.version import __version__
+import g4f.debug
 
+g4f.debug.logging = False
 done = False
 
 # Function to animate loading

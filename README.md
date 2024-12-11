@@ -71,9 +71,9 @@ commify --lang english --emoji True --model llama3.1 --provider ollama
 
 - **`path`:** Path to the Git repository. (If the repository path is not specified, the path Commify is running from will be used)
 - **`--lang`:** Language for the commit message (default: `english`).
-- **`--provider`:** AI provider to use for generating messages (default: `ollama`).
+- **`--provider`:** AI provider to use for generating messages (default: `ollama`). (required)
 - **`--emoji`:** Include emojis in the commit message (`True` or `False`, default: `True`).
-- **`--model`:** AI model to use for generating messages (default: `llama3.1`).
+- **`--model`:** AI model to use for generating messages (default: `llama3.1`). (required)
 - **`--help`:** Display all available parameters and their descriptions.
 
 ---

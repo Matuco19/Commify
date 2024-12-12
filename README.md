@@ -34,7 +34,7 @@ Run the following:
 pip install Commify
 ```
 
-### Linux
+#### Linux
 
 Make sure you have installed `Git`, `python3.8+`, `pipx` and `ollama` (ollama is optional)
 If don't, use this command:

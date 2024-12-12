@@ -30,6 +30,7 @@ setup(
         'GitPython',
         'g4f',
         'rich',
+        'requests'
     ],
     entry_points={
         'console_scripts': [

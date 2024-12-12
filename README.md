@@ -1,13 +1,13 @@
 # Commify
 
-Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. See [Commify](https://matuco19.com/Commify) website to know more. Don't forget to :star: the project!
+Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. See [Commify](https://matuco19.com/Commify) website to know more. Don't forget to ⭐ the project!
 
 >[!Caution]
 >Ollama provider can be slow without a good GPU or a very large AI model. It's not a Commify optimization problem.
 
 ---
 
-## :sparkles: Features
+## ✨ Features
 
 - **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` local AI provider or `G4F` AI provider.
 - **Emoji Support:** Optionally include relevant emojis in commit messages.
@@ -18,7 +18,7 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 ---
 
-## :hammer_and_wrench: Installation
+## 🛠️ Installation
 
 ### Windows
 
@@ -50,7 +50,7 @@ After that, restart your terminal and you will already have Commify installed.
 
 ---
 
-## :building_construction: Usage
+## 🏗️ Usage
 
 Run the `commify` CLI with the desired options:
 
@@ -91,7 +91,7 @@ commify --lang english --emoji True --model llama3.1 --provider ollama
 
 ---
 
-## :bulb: Features in Detail
+## 💡 Features in Detail
 
 ### Commit Message Review
 
@@ -112,7 +112,7 @@ Feel free to submit a pull request or open an issue to add more providers!
 
 ---
 
-## :jigsaw: Testing Information
+## 🧩 Testing Information
 
 Confirmed successful runs (with no errors) on the following:
 
@@ -137,7 +137,7 @@ Let us know if it runs on your machine too!
 
 ---
 
-## :computer: Developer Information
+## 💻 Developer Information
 
 Commify is developed and maintained by **Matuco19**.
 
@@ -147,7 +147,7 @@ Commify is developed and maintained by **Matuco19**.
 
 ---
 
-## :bookmark_tabs: License
+## 📑 License
 
 ![License-MATCO Open Source V1](https://img.shields.io/badge/License-MATCO_Open_Source_V1-blue.svg)
 
@@ -155,7 +155,7 @@ This project is open-source and available under the [MATCO-Open-Source License](
 
 ---
 
-### :wave: Contributions
+### 👋 Contributions
 
 Contributions are welcome! Feel free to open an issue or submit a pull request on [GitHub](https://github.com/Matuco19/commify).
 

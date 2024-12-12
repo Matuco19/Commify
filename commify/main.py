@@ -84,7 +84,7 @@ Diff to analyze:
     
     except Exception as e:
         if provider == 'ollama':
-            raise ValueError(f"Error: Is it if you have Ollama installed? Or perhaps the requested AI model ({model}) is not installed on your system. Detailed error: \n{e}")
+            raise ValueError(f"Error: Is it if you have Ollama installed/running? Or perhaps the requested AI model ({model}) is not installed on your system. Detailed error: \n{e}")
         elif provider == 'g4f':
             raise ValueError(f"Error: Gpt4free services are not available, contact gpt4free contributors for more information (https://github.com/xtekky/gpt4free). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
         else:

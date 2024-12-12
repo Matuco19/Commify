@@ -1,3 +1,4 @@
+setuptools
 ollama
 gitpython
 argparse

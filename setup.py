@@ -15,7 +15,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'Commify = commify.main:main', 
+            'commify = commify.main:main', 
         ],
     },
 )

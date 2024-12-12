@@ -133,8 +133,8 @@ def main():
     parser.add_argument('path', type=str, nargs='?', help='Path to the Git repository directory (optional, defaults to the current directory).')
     parser.add_argument('--lang', type=str, default='english', help='Language for the commit message (default: english)')
     parser.add_argument('--emoji', type=bool, default=True, help='Specifies whether the commit message should include emojis (default: True)')
-    parser.add_argument('--model', type=str, required=True, default='llama3.1', help='The AI model to use for generating commit messages (default: llama3.1)')
-    parser.add_argument('--provider', type=str, required=True, default='ollama', help='The AI provider to use for generating commit messages (default: ollama)')
+    parser.add_argument('--model', type=str, default='llama3.1', help='The AI model to use for generating commit messages (default: llama3.1)')
+    parser.add_argument('--provider', type=str, default='ollama', help='The AI provider to use for generating commit messages (default: ollama)')
     parser.add_argument('--help', action='store_true', help='Displays the help information')
 
     args = parser.parse_args()

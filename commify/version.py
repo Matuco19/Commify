@@ -1,18 +1,20 @@
-
 try:
     import requests
 except ImportError:
     requests = None
 
-__version__ = "1.4.1.8"
+__version__ = "1.4.2"
 
 
 def get_pypi_version(packagename: str):
-    try:
-        response = requests.get(f"https://pypi.org/pypi/{packagename}/json").json()
-        return response["info"]["version"]
-    except requests.RequestException as e:
-        print(f"Error: Failed to get PyPI version. Detailed error: \n{e}")
+    if requests is not None:
+        try:
+            response = requests.get(f"https://pypi.org/pypi/{packagename}/json").json()
+            return response["info"]["version"]
+        except requests.RequestException as e:
+            print(f"Error: Failed to get PyPI version. Detailed error: \n{e}")
+    else:
+        return 'Error: module "requests" is not installed.'
     
 latest_version = get_pypi_version('Commify')
 

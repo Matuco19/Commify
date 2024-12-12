@@ -7,7 +7,7 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 ---
 
-## Features
+## :sparkles: Features
 
 - **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` local AI provider or `G4F` AI provider.
 - **Emoji Support:** Optionally include relevant emojis in commit messages.
@@ -18,11 +18,11 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 ---
 
-## Installation
+## :hammer_and_wrench: Installation
 
 ### Windows
 
-Make sure you have installed `Git`, `python3.8+` and `ollama` (ollama is optional)
+Make sure you have installed `Git`, `python3.10+` and `ollama` (ollama is optional)
 Run the following:
 
 ```bash
@@ -31,7 +31,7 @@ pip install Commify
 
 ### Linux
 
-Make sure you have installed `Git`, `python3.8+`, `pipx` and `ollama` (ollama is optional)
+Make sure you have installed `Git`, `python3.10+`, `pipx` and `ollama` (ollama is optional)
 If don't, use this command:
 
 ```bash
@@ -50,7 +50,7 @@ After that, restart your terminal and you will already have Commify installed.
 
 ---
 
-## Usage
+## :building_construction: Usage
 
 Run the `commify` CLI with the desired options:
 
@@ -87,10 +87,11 @@ commify --lang english --emoji True --model llama3.1 --provider ollama
 - **`--emoji`:** Include emojis in the commit message (`True` or `False`, default: `True`).
 - **`--model`:** AI model to use for generating messages (default: `llama3.1`). (required)
 - **`--help`:** Display all available parameters and their descriptions.
+- **`--version`:** Display the installed Commify version.
 
 ---
 
-## Features in Detail
+## :bulb: Features in Detail
 
 ### Commit Message Review
 
@@ -100,9 +101,18 @@ Once a message is generated, you'll be prompted to:
 - **Reject** the message will be generated again (`n`).
 - **Cancel** the message (`c`).
 
+### Commify Providers
+
+Commify currently supports only 2 providers:
+
+- [ollama](https://ollama.com/): Ollama is an open-source project that serves as a powerful and user-friendly platform for running LLMs on your local machine.
+- [gpt4free](https://github.com/xtekky/gpt4free): gpt4free is an AI-Based Software Package that Reverse-Engineers APIs to Grant Anyone Free Access to Popular and powerful AI Models.
+
+Feel free to submit a pull request or open an issue to add more providers!
+
 ---
 
-## Testing Information
+## :jigsaw: Testing Information
 
 Confirmed successful runs (with no errors) on the following:
 
@@ -127,7 +137,7 @@ Let us know if it runs on your machine too!
 
 ---
 
-## Developer Information
+## :computer: Developer Information
 
 Commify is developed and maintained by **Matuco19**.
 
@@ -137,7 +147,7 @@ Commify is developed and maintained by **Matuco19**.
 
 ---
 
-## License
+## :bookmark_tabs: License
 
 ![License-MATCO Open Source V1](https://img.shields.io/badge/License-MATCO_Open_Source_V1-blue.svg)
 
@@ -145,7 +155,7 @@ This project is open-source and available under the [MATCO-Open-Source License](
 
 ---
 
-### Contributions
+### :wave: Contributions
 
 Contributions are welcome! Feel free to open an issue or submit a pull request on [GitHub](https://github.com/Matuco19/commify).
 

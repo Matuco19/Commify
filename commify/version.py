@@ -1,5 +1,10 @@
-import requests
-__version__ = "1.4.1.4"
+
+try:
+    import requests
+except ImportError:
+    requests = None
+
+__version__ = "1.4.1.8"
 
 
 def get_pypi_version(packagename: str):

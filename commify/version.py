@@ -1,5 +1,5 @@
 import requests
-__version__ = "1.4"
+__version__ = "1.4.1"
 
 
 def get_pypi_version(packagename: str):

@@ -20,12 +20,7 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 ## Installation
 
->[!NOTE]
->install by the New Way instead
-
-### New Way
-
-#### Windows
+### Windows
 
 Make sure you have installed `Git`, `python3.8+` and `ollama` (ollama is optional)
 Run the following:
@@ -34,7 +29,7 @@ Run the following:
 pip install Commify
 ```
 
-#### Linux
+### Linux
 
 Make sure you have installed `Git`, `python3.8+`, `pipx` and `ollama` (ollama is optional)
 If don't, use this command:
@@ -53,36 +48,6 @@ pipx ensurepath
 
 After that, restart your terminal and you will already have Commify installed.
 
-### Old Way
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/Matuco19/commify.git
-   cd commify
-   ```
-
-2. **Install dependencies:**
-   Ensure you have `Python 3.8+` and `pip` installed. Then, install the required libraries:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-   Required libraries include:
-   - `ollama` (for local AI chat capabilities)
-   - `g4f` (for AI chat capabilities)
-   - `gitpython` (to interact with Git repositories)
-   - `argparse` (built-in Python library for parsing command-line arguments)
-   - `Git` (to interact with gitpython)
-
-3. **Add Commify to your PATH:**
-   Make the script accessible globally by adding it to your system's PATH:
-
-   ```bash
-   pip install .
-   ```
-
 ---
 
 ## Usage
@@ -93,7 +58,7 @@ Run the `commify` CLI with the desired options:
 commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_model>] [--provider <AI_PROVIDER>]
 ```
 
-### Example
+### Examples
 
 Using Ollama Provider:
 

@@ -1,20 +1,16 @@
-import ollama
-from g4f.client import Client
 from git import Repo
-import argparse
-import os
-import itertools
+import argparse, os, g4f.debug
 from sys import stdout as terminal
 from time import sleep
 from threading import Thread
 from commify.version import __version__
-import g4f.debug
 
 g4f.debug.logging = False
 done = False
 
 # Function to animate loading
 def animate():
+    import itertools
     for c in itertools.cycle(['⣾ ', '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ']):
         if done:
             break
@@ -63,6 +59,7 @@ Diff to analyze:
         t.start()
         # default ollama provider (run in local machine)
         if provider == 'ollama':
+            import ollama
             response = ollama.chat(model=model, messages=[
                 {'role': 'system', 'content': system_prompt}
             ])
@@ -70,6 +67,7 @@ Diff to analyze:
 
         # gpt4free provider (openai api without apikey use)
         elif provider == 'g4f':
+            from g4f.client import Client
             client = Client()
             response = client.chat.completions.create(
                 model=model,
@@ -84,11 +82,13 @@ Diff to analyze:
             raise ValueError("Error: the generated commit message is empty.")
         return commit_message
     
-    except:
+    except Exception as e:
         if provider == 'ollama':
-            raise ValueError(f"Error: Is it if you have Ollama installed? Or perhaps the requested AI model ({model}) is not installed on your system.")
+            raise ValueError(f"Error: Is it if you have Ollama installed? Or perhaps the requested AI model ({model}) is not installed on your system. Detailed error: \n{e}")
         elif provider == 'g4f':
-            raise ValueError(f"Error: Gpt4free services are not available, contact gpt4free contributors for more information (https://github.com/xtekky/gpt4free). Or perhaps the requested AI model ({model}) is not available.")
+            raise ValueError(f"Error: Gpt4free services are not available, contact gpt4free contributors for more information (https://github.com/xtekky/gpt4free). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
+        else:
+            raise ValueError(f"An unknown error occurred, report this to Commify Developer immediately at https://github.com/Matuco19/Commify/Issues. Error: \n{e}")
 
     finally:
         # Stop the animation
@@ -122,8 +122,9 @@ Options:
   --lang            Language for the commit message (default: english).
   --emoji           Specifies whether the commit message should include emojis (True/False).
   --model           The AI model to use for generating commit messages (default: llama3.1).
-  --provider        The AI provider to use for generating commit messages (default: ollama)
+  --provider        The AI provider to use for generating commit messages (default: ollama).
   --help            Displays this help message.
+  --version         Displays the current version of Commify.
     """)
 
 # Main CLI function

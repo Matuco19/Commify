@@ -1,13 +1,13 @@
-try:
+try: # fix a github actions bug
     import requests
 except ImportError:
     requests = None
 
-__version__ = "1.4.2"
+__version__ = "1.4.3"
 
 
 def get_pypi_version(packagename: str):
-    if requests is not None:
+    if requests is not None: # that also fixes
         try:
             response = requests.get(f"https://pypi.org/pypi/{packagename}/json").json()
             return response["info"]["version"]

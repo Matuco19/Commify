@@ -116,7 +116,8 @@ def display_help():
     console = Console()
     md = Markdown(f"""
 **Commify: You Should Commit Yourself**  
-Created by [Matuco19](https://github.com/Matuco19/Commify), see their website [here](https://matuco19.com/)  
+Created by [Matuco19](https://matuco19.com)  
+[Discord Server](https://discord.gg/hp7yCxHJBw) | [Github](https://github.com/Matuco19/Commify) | [License](https://matuco19.com/licenses/MATCO-Open-Source)  
 Commify Version: {__version__}  
 Usage: Commify [path] [options]  
 

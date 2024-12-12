@@ -3,3 +3,5 @@ ollama
 gitpython
 argparse
 g4f[all]
+rich
+requests

@@ -3,7 +3,7 @@ import argparse, os, g4f.debug
 from sys import stdout as terminal
 from time import sleep
 from threading import Thread
-from commify.version import __version__
+from commify.version import __version__, check_version
 
 g4f.debug.logging = False
 done = False
@@ -110,22 +110,26 @@ def push_to_origin(repo):
 
 # Function to display the help message
 def display_help():
-    print(f"""
-Commify: You Should Commit Yourself
-Created by Matuco19 (https://github.com/Matuco19/Commify)
-Website: https://matuco19.com/Commify
-Commify Version: {__version__}
-Usage: Commify [path] [options]
+    # markdown module
+    from rich.console import Console
+    from rich.markdown import Markdown
+    console = Console()
+    md = Markdown(f"""
+**Commify: You Should Commit Yourself**  
+Created by [Matuco19](https://github.com/Matuco19/Commify), see their website [here](https://matuco19.com/)  
+Commify Version: {__version__}  
+Usage: Commify [path] [options]  
 
-Options:
-  path              Path to the Git repository directory (optional, defaults to the current directory).
-  --lang            Language for the commit message (default: english).
-  --emoji           Specifies whether the commit message should include emojis (True/False).
-  --model           The AI model to use for generating commit messages (default: llama3.1).
-  --provider        The AI provider to use for generating commit messages (default: ollama).
-  --help            Displays this help message.
-  --version         Displays the current version of Commify.
+Options:  
+&nbsp;&nbsp;path              Path to the Git repository directory (optional, defaults to the current directory).  
+&nbsp;&nbsp;--lang            Language for the commit message (default: english).  
+&nbsp;&nbsp;--emoji           Specifies whether the commit message should include emojis (True/False).  
+&nbsp;&nbsp;--model           The AI model to use for generating commit messages (default: llama3.1).  
+&nbsp;&nbsp;--provider        The AI provider to use for generating commit messages (default: ollama).  
+&nbsp;&nbsp;--help            Displays this help message.  
+&nbsp;&nbsp;--version         Displays the current version of Commify.  
     """)
+    console.print(md)
 
 # Main CLI function
 def main():
@@ -140,6 +144,7 @@ def main():
     parser.add_argument('--version', action='store_true', help='Displays the Commify version')
 
     args = parser.parse_args()
+    check_version()
 
     # Show help information if --help is used
     if args.help:

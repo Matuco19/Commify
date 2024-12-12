@@ -20,6 +20,41 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 ## Installation
 
+>[!NOTE]
+>install by the New Way instead
+
+### New Way
+
+#### Windows
+
+Make sure you have installed `Git`, `python3.8+` and `ollama` (ollama is optional)
+Run the following:
+
+```bash
+pip install Commify
+```
+
+### Linux
+
+Make sure you have installed `Git`, `python3.8+`, `pipx` and `ollama` (ollama is optional)
+If don't, use this command:
+
+```bash
+sudo apt install git
+sudo apt install pipx
+```
+
+And install Commify:
+
+```bash
+pipx install Commify
+pipx ensurepath
+```
+
+After that, restart your terminal and you will already have Commify installed.
+
+### Old Way
+
 1. **Clone the repository:**
 
    ```bash
@@ -39,6 +74,7 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
    - `g4f` (for AI chat capabilities)
    - `gitpython` (to interact with Git repositories)
    - `argparse` (built-in Python library for parsing command-line arguments)
+   - `Git` (to interact with gitpython)
 
 3. **Add Commify to your PATH:**
    Make the script accessible globally by adding it to your system's PATH:
@@ -108,9 +144,12 @@ Confirmed successful runs (with no errors) on the following:
 - **OS:**
   - Windows11
   - Windows10
+  - Ubuntu24.04.1LTS
+  - Linux Mint 22
 
 - **Python:**
-  - Python 3.11.9 64-bit
+  - Python 3.11.9
+  - Python 3.12.3
 
 - **AI Models:**
   - llama3.2-vision `Ollama`

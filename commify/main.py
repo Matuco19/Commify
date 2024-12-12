@@ -136,12 +136,16 @@ def main():
     parser.add_argument('--model', type=str, default='llama3.1', help='The AI model to use for generating commit messages (default: llama3.1)')
     parser.add_argument('--provider', type=str, default='ollama', help='The AI provider to use for generating commit messages (default: ollama)')
     parser.add_argument('--help', action='store_true', help='Displays the help information')
+    parser.add_argument('--version', action='store_true', help='Displays the Commify version')
 
     args = parser.parse_args()
 
     # Show help information if --help is used
     if args.help:
         display_help()
+        return
+    if args.version:
+        print(f"Commify {__version__}")
         return
 
     # Use the provided path or default to the current working directory

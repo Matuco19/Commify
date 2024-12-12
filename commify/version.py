@@ -3,7 +3,7 @@ try: # fix a github actions bug
 except ImportError:
     requests = None
 
-__version__ = "1.4.5"
+__version__ = "1.4.5.1"
 
 
 def get_pypi_version(packagename: str):

@@ -18,7 +18,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Matuco19',
-    license="MATCO-Open-Source 1.0",
+    license="Apache License 2.0",
     url="https://matuco19.com/Commify",
     project_urls={
         'Source Code': 'https://github.com/Matuco19/Commify',  

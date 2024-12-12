@@ -16,6 +16,7 @@ setup(
     version=__version__,
     description='Commify: You Should Commit Yourself.',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Matuco19',
     license="MATCO-Open-Source 1.0",
     url="https://matuco19.com/Commify",

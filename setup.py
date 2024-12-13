@@ -38,9 +38,11 @@ setup(
         ],
     },
     keywords=[
+        'commify',
         'python',
         'ai',
         'commit',
+        'commits',
         'git',
         'github',
         'gpt',

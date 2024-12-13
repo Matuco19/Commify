@@ -3,7 +3,12 @@
 Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. See [Commify](https://matuco19.com/Commify) website to know more. Don't forget to ⭐ the project!
 
 >[!Caution]
->Ollama provider can be slow without a good GPU or a very large AI model. It's not a Commify optimization problem.
+>Ollama provider can be slow without a good GPU or a very large AI model. It's not a Commify optimization problem.  
+
+<!-- space -->
+> [!NOTE]
+> <sup><strong>Latest version:</strong></sup> [![PyPI version](https://img.shields.io/pypi/v/Commify?color=blue)](https://pypi.org/project/Commify)  
+> <sup><strong>Stats:</strong></sup> [![Downloads](https://static.pepy.tech/badge/Commify)](https://pepy.tech/project/Commify) [![Downloads](https://static.pepy.tech/badge/Commify/month)](https://pepy.tech/project/Commify)  
 
 ---
 
@@ -163,4 +168,4 @@ Contributions are welcome! Feel free to open an issue or submit a pull request o
 
 ---
 
-Start making commits with **Commify** today! :tada:
+Start making commits with **Commify** today! 🎉

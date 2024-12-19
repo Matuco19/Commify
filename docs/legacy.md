@@ -1,5 +1,8 @@
 # Commify: Legacy Documentation
 
+>[!Caution]
+>You should under no circumstances download and/or use Commify from this documentation, as it is obsolete and contains security errors. Download and/or use using the method described in [README.md](https://github.com/Matuco19/Commify)
+
 ## Installation
 
 ### Old Way (Don't install in this way, it's deprecated.)

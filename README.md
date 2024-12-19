@@ -7,17 +7,17 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 <!-- space -->
 > [!NOTE]
-> <sup><strong>Latest version:</strong></sup> [![PyPI version](https://img.shields.io/pypi/v/Commify?color=blue)](https://pypi.org/project/Commify)  
-> <sup><strong>Stats:</strong></sup> [![Downloads](https://static.pepy.tech/badge/Commify)](https://pepy.tech/project/Commify) [![Downloads](https://static.pepy.tech/badge/Commify/month)](https://pepy.tech/project/Commify)  
+> <sup>**Latest version:**</sup> [![PyPI version](https://img.shields.io/pypi/v/Commify?color=blue)](https://pypi.org/project/Commify)  
+> <sup>**Stats:**</sup> [![Downloads](https://static.pepy.tech/badge/Commify)](https://pepy.tech/project/Commify) [![Downloads](https://static.pepy.tech/badge/Commify/month)](https://pepy.tech/project/Commify)  
 
 ---
 
 ## ✨ Features
 
-- **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` local AI provider or `G4F` AI provider.
+- **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` local AI provider, `G4F` AI provider or `Openai` AI provider (Openai provider requires an apikey).
 - **Emoji Support:** Optionally include relevant emojis in commit messages.
 - **Language Support:** Generate commit messages in the language of your choice.
-- **Customizable Providers:** Specify the AI provider to use (g4f or ollama).
+- **Customizable Providers:** Specify the AI provider to use (g4f, ollama or openai).
 - **Interactive Review System:** Review and approve generated messages or request new ones.
 - **Customizable Models:** Specify the AI model to use.
 
@@ -60,7 +60,7 @@ After that, restart your terminal and you will already have Commify installed.
 Run the `commify` CLI with the desired options:
 
 ```bash
-commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_model>] [--provider <AI_PROVIDER>]
+commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_model>] [--provider <AI_PROVIDER>] [--apikey <API_KEY>]
 ```
 
 ### Examples
@@ -77,11 +77,23 @@ Using G4F Provider:
 commify /path/to/repo --lang english --emoji True --model gpt-4o --provider g4f
 ```
 
+Using Openai Provider:
+
+```bash
+commify /path/to/repo --lang english --emoji True --model gpt-4o --provider openai --apikey your-api-key
+```
+
 Without Specifying The Repository Path:
 
 ```bash
 cd /path/to/repo
 commify --lang english --emoji True --model llama3.1 --provider ollama
+```
+
+Using in Debug Mode:
+
+```bash
+commify /path/to/repo --debug --lang english --emoji True --model llama3.1 --provider ollama
 ```
 
 ### Arguments
@@ -91,8 +103,10 @@ commify --lang english --emoji True --model llama3.1 --provider ollama
 - **`--provider`:** AI provider to use for generating messages (default: `ollama`). (required)
 - **`--emoji`:** Include emojis in the commit message (`True` or `False`, default: `True`).
 - **`--model`:** AI model to use for generating messages (default: `llama3.1`). (required)
+- **`--apikey`:** Apikey required to use the Openai provider (default: `sk-`). (Required only if you use the Openai provider)
 - **`--help`:** Display all available parameters and their descriptions.
 - **`--version`:** Display the installed Commify version.
+- **`--debug`:** Run Commify in Debug Mode. (It is not recommended if you don't know what you are doing.)
 
 ---
 
@@ -108,10 +122,11 @@ Once a message is generated, you'll be prompted to:
 
 ### Commify Providers
 
-Commify currently supports only 2 providers:
+Commify currently supports only 3 providers:
 
-- [ollama](https://ollama.com/): Ollama is an open-source project that serves as a powerful and user-friendly platform for running LLMs on your local machine.
+- [ollama](https://ollama.com/): ollama is an open-source project that serves as a powerful and user-friendly platform for running LLMs on your local machine.
 - [gpt4free](https://github.com/xtekky/gpt4free): gpt4free is an AI-Based Software Package that Reverse-Engineers APIs to Grant Anyone Free Access to Popular and powerful AI Models.
+- [openai](https://platform.openai.com/): openAI is a cutting-edge research organization that works to push the limits of artificial intelligence in a variety of domains.
 
 Feel free to submit a pull request or open an issue to add more providers!
 
@@ -154,11 +169,9 @@ Commify is developed and maintained by **Matuco19**.
 
 ## 📑 License
 
-~~![License-MATCO Open Source V1](https://img.shields.io/badge/License-MATCO_Open_Source_V1-blue.svg)~~
+![License-MATCO Open Source V1](https://img.shields.io/badge/License-MATCO_Open_Source_V1-blue.svg)
 
-~~This project is open-source and available under the [MATCO-Open-Source License](https://matuco19.com/licenses/MATCO-Open-Source). See the `LICENSE` file for details.~~
-
-Apache License 2.0
+This project is open-source and available under the [MATCO-Open-Source License](https://matuco19.com/licenses/MATCO-Open-Source). See the `LICENSE` file for details.
 
 ---
 

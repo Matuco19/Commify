@@ -5,3 +5,4 @@ argparse
 g4f[all]
 rich
 requests
+openai

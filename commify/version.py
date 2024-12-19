@@ -3,10 +3,10 @@ try: # fix a github actions bug
 except ImportError:
     requests = None
 
-__version__ = "1.4.5.2"
+__version__ = "1.5"
 
 
-def get_pypi_version(packagename: str):
+def _get_pypi_version(packagename: str):
     if requests is not None: # that also fixes
         try:
             response = requests.get(f"https://pypi.org/pypi/{packagename}/json").json()
@@ -16,11 +16,11 @@ def get_pypi_version(packagename: str):
     else:
         return 'Error: module "requests" is not installed.'
     
-latest_version = get_pypi_version('Commify')
+latest_version = _get_pypi_version('Commify')
 
-def check_version():
+def _check_version():
         try:
-            if __version__ != get_pypi_version('Commify'):
+            if __version__ != _get_pypi_version('Commify'):
                 print(f'New Commify version available: {latest_version} (current: {__version__})! ‖ pip install -U Commify\n')
         except Exception as e:
             print(f'Error: Failed to check Commify version. Detailed error: \n{e}')

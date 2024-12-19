@@ -3,13 +3,13 @@ import argparse, os, g4f.debug
 from sys import stdout as terminal
 from time import sleep
 from threading import Thread
-from commify.version import __version__, check_version
+from commify.version import __version__, _check_version
 
 g4f.debug.logging = False
 done = False
 
 # Function to animate loading
-def animate():
+def _animate():
     import itertools
     for c in itertools.cycle(['⣾ ', '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ']):
         if done:
@@ -21,11 +21,11 @@ def animate():
     terminal.flush()
 
 # Function to get the diff of the current repository
-def get_diff(repo):
+def _get_diff(repo):
     return repo.git.diff('--cached')
 
 # Function to generate the commit message using providers
-def generate_commit_message(diff, lang='english', emoji=True, model='llama3.1', provider='ollama'):
+def _generate_commit_message(diff, lang='english', emoji=True, model='llama3.1', provider='ollama', apikey='sk-'):
     global done
     emoji_instructions = (
         "Include relevant emojis in the message where appropriate, as per conventional commit guidelines."
@@ -55,7 +55,7 @@ Diff to analyze:
 """
     try:
         # Start loading animation in a separate thread
-        t = Thread(target=animate)
+        t = Thread(target=_animate)
         t.start()
         # default ollama provider (run in local machine)
         if provider == 'ollama':
@@ -75,6 +75,19 @@ Diff to analyze:
                     {'role': 'system', 'content': system_prompt}
             ])
             commit_message = response.choices[0].message.content
+        # openai provider (openai api with apikey use)
+        elif provider == 'openai':
+            import openai
+            openai.api_key = apikey
+            response = openai.chat.completions.create(
+                model=model,
+                messages=[
+                    {'role': 'system', 'content': system_prompt}
+                ]
+            )
+            commit_message = response.choices[0].message.content.strip()
+        
+
         else:
             raise ValueError(f"Error: You did not specify the provider or the provider is not currently available on Commify, if this is the case, do not hesitate to create an Issue or Pull Request to add the requested provider!")
         
@@ -87,6 +100,8 @@ Diff to analyze:
             raise ValueError(f"Error: Is it if you have Ollama installed/running? Or perhaps the requested AI model ({model}) is not installed on your system. Detailed error: \n{e}")
         elif provider == 'g4f':
             raise ValueError(f"Error: Gpt4free services are not available, contact gpt4free contributors for more information (https://github.com/xtekky/gpt4free). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
+        elif provider == 'openai':
+            raise ValueError(f"Error: OpenAI services are not available, contact OpenAI for more information (https://openai.com). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
         else:
             raise ValueError(f"An unknown error occurred, report this to Commify Developer immediately at https://github.com/Matuco19/Commify/Issues. Error: \n{e}")
 
@@ -97,11 +112,11 @@ Diff to analyze:
 
 
 
-def commit_changes(repo, commit_message):
+def _commit_changes(repo, commit_message):
     repo.git.commit('-m', commit_message)
 
 # Function to push the commit to the remote origin
-def push_to_origin(repo):
+def _push_to_origin(repo):
     try:
         repo.git.push("origin")
         print("Changes successfully pushed to origin.")
@@ -109,7 +124,7 @@ def push_to_origin(repo):
         print(f"Error pushing to origin: {e}")
 
 # Function to display the help message
-def display_help():
+def _display_help():
     # markdown module
     from rich.console import Console
     from rich.markdown import Markdown
@@ -127,6 +142,7 @@ Options:
 &nbsp;&nbsp;--emoji           Specifies whether the commit message should include emojis (True/False).  
 &nbsp;&nbsp;--model           The AI model to use for generating commit messages (default: llama3.1).  
 &nbsp;&nbsp;--provider        The AI provider to use for generating commit messages (default: ollama).  
+&nbsp;&nbsp;--apikey          The Openai apikey to use Openai provider (default: sk-).
 &nbsp;&nbsp;--help            Displays this help message.  
 &nbsp;&nbsp;--version         Displays the current version of Commify.  
     """)
@@ -141,15 +157,24 @@ def main():
     parser.add_argument('--emoji', type=bool, default=True, help='Specifies whether the commit message should include emojis (default: True)')
     parser.add_argument('--model', type=str, default='llama3.1', help='The AI model to use for generating commit messages (default: llama3.1)')
     parser.add_argument('--provider', type=str, default='ollama', help='The AI provider to use for generating commit messages (default: ollama)')
+    parser.add_argument('--apikey', type=str, default='sk-', help='The Openai apikey to use Openai provider (default: sk-)')
     parser.add_argument('--help', action='store_true', help='Displays the help information')
+    parser.add_argument('--debug', action='store_true', help='Enables debug mode')
     parser.add_argument('--version', action='store_true', help='Displays the Commify version')
 
     args = parser.parse_args()
-    check_version()
+    _check_version()
+
+    # Enable debug mode if --debug is used
+    if args.debug:
+        import logging
+        logging.basicConfig(level=logging.DEBUG)
+        g4f.debug.logging = True
+        logging.debug("Debug mode is enabled")
 
     # Show help information if --help is used
     if args.help:
-        display_help()
+        _display_help()
         return
     if args.version:
         print(f"Commify {__version__}")
@@ -161,6 +186,7 @@ def main():
     emoji = args.emoji
     model = args.model
     provider = args.provider
+    apikey = args.apikey
 
     # Check if the provided path is valid
     if not os.path.isdir(repo_path):
@@ -176,7 +202,7 @@ def main():
 
     # Check if there are staged changes to commit
     if repo.is_dirty(untracked_files=True):
-        diff = get_diff(repo)
+        diff = _get_diff(repo)
         if not diff:
             print('No changes have been staged for commit. Could it be if you forgot to run "git add ."?')
             return
@@ -184,20 +210,21 @@ def main():
         # Generate the commit message
         try:
             while True:
-                commit_message = generate_commit_message(diff, lang, emoji, model, provider)
+                commit_message = _generate_commit_message(diff, lang, emoji, model, provider, apikey)
+                commit_message = commit_message.replace('```', '')
                 print(f"\nGenerated commit message:\n{commit_message}\n")
 
                 # Ask the user if they want to accept the message
                 decision = input("Do you accept this commit message? (y = yes, n = no, c = cancel): ").lower()
 
                 if decision == 'y':
-                    commit_changes(repo, commit_message)
+                    _commit_changes(repo, commit_message)
                     print('Commit completed successfully.')
 
                     # Ask if the user wants to push the changes
                     push_decision = input("Do you want to push the commit to origin? (y = yes, n = no): ").lower()
                     if push_decision == 'y':
-                        push_to_origin(repo)
+                        _push_to_origin(repo)
                     else:
                         print("Changes were not pushed.")
                     break

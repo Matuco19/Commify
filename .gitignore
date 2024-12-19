@@ -2,3 +2,4 @@ build
 Commify.egg-info
 __pycache__
 har_and_cookies
+tests.py

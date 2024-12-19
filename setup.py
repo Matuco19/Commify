@@ -18,7 +18,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Matuco19',
-    license="Apache License 2.0",
+    license="MATCO-Open-Source",
     url="https://matuco19.com/Commify",
     project_urls={
         'Source Code': 'https://github.com/Matuco19/Commify',  
@@ -30,7 +30,8 @@ setup(
         'GitPython',
         'g4f',
         'rich',
-        'requests'
+        'requests',
+        'openai'
     ],
     entry_points={
         'console_scripts': [
@@ -51,6 +52,12 @@ setup(
         'commits',
         'gpt-4',
         'gpt4',
+        'gpt-4o',
+        'gpt4o',
+        'gpt4-o',
+        'gpt-4omni',
+        'cli',
+        'cli-app',
         'ollama',
         'ollama-api',
         'llama3',

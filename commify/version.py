@@ -5,7 +5,6 @@ except ImportError:
 
 __version__ = "1.5.5"
 
-
 def _get_pypi_version(packagename: str):
     if requests is not None: # that also fixes
         try:

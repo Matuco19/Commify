@@ -175,7 +175,7 @@ This project is open-source and available under the [MATCO-Open-Source License](
 
 ---
 
-### 👋 Contributions
+## 👋 Contributions
 
 Contributions are welcome! Feel free to open an issue or submit a pull request on [GitHub](https://github.com/Matuco19/commify).
 

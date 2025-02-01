@@ -7,8 +7,8 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 <!-- space -->
 > [!NOTE]
-> ^Latest-Version:^ [![PyPI version](https://img.shields.io/pypi/v/Commify?color=blue)](https://pypi.org/project/Commify)  
-> ^Stats:^ [![Downloads](https://static.pepy.tech/badge/Commify)](https://pepy.tech/project/Commify) [![Downloads](https://static.pepy.tech/badge/Commify/month)](https://pepy.tech/project/Commify)  
+> <sup>**Latest version:**</sup> [![PyPI version](https://img.shields.io/pypi/v/Commify?color=blue)](https://pypi.org/project/Commify)  
+> <sup>**Stats:**</sup> [![Downloads](https://static.pepy.tech/badge/Commify)](https://pepy.tech/project/Commify) [![Downloads](https://static.pepy.tech/badge/Commify/month)](https://pepy.tech/project/Commify)  
 
 ---
 
@@ -153,6 +153,7 @@ Confirmed successful runs (with no errors) on the following:
   - gpt-4o `G4F`
   - gpt-4o-mini `G4F`
   - deepseek-r1 `Ollama`
+  - Phi3.5 `Ollama`
 
 Let us know if it runs on your machine too!
 

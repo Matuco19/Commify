@@ -14,10 +14,10 @@ def _animate():
     for c in itertools.cycle(['⣾ ', '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ']):
         if done:
             break
-        terminal.write('\rloading ' + c)
+        terminal.write(f'\rCommify {__version__} | loading {c}')
         terminal.flush()
         sleep(0.1)
-    terminal.write('\rDone!    '+ "\n")
+    terminal.write('\rDone!                     '+ "\n")
     terminal.flush()
 
 # Function to get the diff of the current repository

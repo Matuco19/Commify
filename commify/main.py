@@ -4,9 +4,83 @@ from sys import stdout as terminal
 from time import sleep
 from threading import Thread
 from commify.version import __version__, _check_version
+import re
 
 g4f.debug.logging = False
 done = False
+ENV_FILE = os.path.expanduser("~/.commify_env")
+
+# This function removes the thought of models that think, this is to ensure that the final commit is clean and concise
+def remove_think(prompt: str):
+    # Remove everything between <think> and </think> (including the tags themselves)
+    no_think = re.sub(r'<think>.*?</think>', '', prompt, flags=re.DOTALL)
+    return no_think.strip()
+
+def load_env():
+    if os.path.exists(ENV_FILE):
+        with open(ENV_FILE, "r") as f:
+            for line in f:
+                if "=" in line:
+                    key, val = line.strip().split("=", 1)
+                    os.environ.setdefault(key, val)
+
+def save_api_key(provider, api_key):
+    env_var = get_env_var(provider)
+    if not env_var:
+        print("Error: Only 'openai' and 'groq' providers are supported for saving API keys.")
+        return
+
+    # Load already saved API keys (if they exist)
+    env_data = {}
+    if os.path.exists(ENV_FILE):
+        with open(ENV_FILE, "r") as f:
+            for line in f:
+                if "=" in line:
+                    k, v = line.strip().split("=", 1)
+                    env_data[k] = v
+    env_data[env_var] = api_key
+
+    with open(ENV_FILE, "w") as f:
+        for k, v in env_data.items():
+            f.write(f"{k}={v}\n")
+    os.environ[env_var] = api_key
+    print(f"API key for provider '{provider}' successfully saved to environment variable '{env_var}'.")
+
+def modify_api_key(provider, api_key):
+    env_var = get_env_var(provider)
+    if not env_var:
+        print("Error: Only the 'openai' and 'groq' providers are supported for modifying API keys.")
+        return
+
+    # Checks if the API key is already saved
+    if os.path.exists(ENV_FILE):
+        env_data = {}
+        with open(ENV_FILE, "r") as f:
+            for line in f:
+                if "=" in line:
+                    k, v = line.strip().split("=", 1)
+                    env_data[k] = v
+        if env_var not in env_data:
+            print(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first.")
+            return
+        # Update the API key
+        env_data[env_var] = api_key
+        with open(ENV_FILE, "w") as f:
+            for k, v in env_data.items():
+                f.write(f"{k}={v}\n")
+        os.environ[env_var] = api_key
+        print(f"API key for provider '{provider}' successfully modified in environment variable '{env_var}'.")
+    else:
+        print(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first.")
+
+def get_env_var(provider):
+    provider = provider.lower()
+    if provider == "openai":
+        return "OPENAI_API_KEY"
+    elif provider == "groq":
+        return "GROQ_API_KEY"
+    else:
+        return None
 
 # Function to animate loading
 def _animate():
@@ -86,14 +160,24 @@ Diff to analyze:
                 ]
             )
             commit_message = response.choices[0].message.content.strip()
-        
+        elif provider == 'groq':
+            from groq import Groq
+            client = Groq(api_key=apikey)
+            completion = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {'role': 'system', 'content': system_prompt}
+                ],
+                stream=False,
+            )
+            commit_message = completion.choices[0].message.content.strip()
 
         else:
             raise ValueError(f"Error: You did not specify the provider or the provider is not currently available on Commify, if this is the case, do not hesitate to create an Issue or Pull Request to add the requested provider!")
         
         if not commit_message or commit_message=='None':
             raise ValueError("Error: the generated commit message is empty.")
-        return commit_message
+        return remove_think(commit_message)
     
     except Exception as e:
         if provider == 'ollama':
@@ -102,6 +186,8 @@ Diff to analyze:
             raise ValueError(f"Error: Gpt4free services are not available, contact gpt4free contributors for more information (https://github.com/xtekky/gpt4free). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
         elif provider == 'openai':
             raise ValueError(f"Error: OpenAI services are not available, contact OpenAI for more information (https://openai.com). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
+        elif provider == 'groq':
+            raise ValueError(f"Error: GroqCloud services are not available, contact Groq for more information (https://groq.com/). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
         else:
             raise ValueError(f"An unknown error occurred, report this to Commify Developer immediately at https://github.com/Matuco19/Commify/Issues. Error: \n{e}")
 
@@ -142,9 +228,18 @@ Options:
 &nbsp;&nbsp;--emoji           Specifies whether the commit message should include emojis (True/False).  
 &nbsp;&nbsp;--model           The AI model to use for generating commit messages (default: llama3.1).  
 &nbsp;&nbsp;--provider        The AI provider to use for generating commit messages (default: ollama).  
-&nbsp;&nbsp;--apikey          The Openai apikey to use Openai provider (default: sk-).
+&nbsp;&nbsp;--apikey          A temp apikey use for Openai or Groq API key to use (default: sk-).  
+&nbsp;&nbsp;--save-apikey     Save API key for a provider. Ex: --save-apikey openai sk-...  
+&nbsp;&nbsp;--mod-apikey      Modify API key for a provider. Ex: --mod-apikey groq gsk-...  
 &nbsp;&nbsp;--help            Displays this help message.  
 &nbsp;&nbsp;--version         Displays the current version of Commify.  
+
+Available AI Providers:
+- _ollama:_ Local AI provider, requires Ollama installed and running locally.
+- _g4f:_ Gpt4free AI provider, does not require an API key.
+- _openai:_ OpenAI API provider, requires an API key.
+- _groq:_ GroqCloud AI provider, requires an API key.
+
     """)
     console.print(md)
 
@@ -157,12 +252,27 @@ def main():
     parser.add_argument('--emoji', type=bool, default=True, help='Specifies whether the commit message should include emojis (default: True)')
     parser.add_argument('--model', type=str, default='llama3.1', help='The AI model to use for generating commit messages (default: llama3.1)')
     parser.add_argument('--provider', type=str, default='ollama', help='The AI provider to use for generating commit messages (default: ollama)')
-    parser.add_argument('--apikey', type=str, default='sk-', help='The Openai apikey to use Openai provider (default: sk-)')
+    parser.add_argument('--apikey', type=str, default='sk-', help='A temporary API key to use for providers that require an API key (default: sk-)')
+    parser.add_argument('--save-apikey', nargs=2, metavar=('PROVIDER', 'APIKEY'), help='Save API key for a provider (only openai and groq supported).')
+    parser.add_argument('--mod-apikey', nargs=2, metavar=('PROVIDER', 'APIKEY'), help='Modify API key for a provider (only openai and groq supported).')
     parser.add_argument('--help', action='store_true', help='Displays the help information')
     parser.add_argument('--debug', action='store_true', help='Enables debug mode')
     parser.add_argument('--version', action='store_true', help='Displays the Commify version')
 
     args = parser.parse_args()
+
+    # If user uses --save-apikey, process and exit
+    if args.save_apikey:
+        provider, api_key = args.save_apikey
+        save_api_key(provider, api_key)
+        return
+
+    # If user uses --mod-apikey, process and exit
+    if args.mod_apikey:
+        provider, api_key = args.mod_apikey
+        modify_api_key(provider, api_key)
+        return
+
     _check_version()
 
     # Enable debug mode if --debug is used
@@ -180,7 +290,8 @@ def main():
         print(f"Commify {__version__}")
         return
 
-    # Use the provided path or default to the current working directory
+    load_env()
+
     repo_path = args.path or os.getcwd()
     lang = args.lang
     emoji = args.emoji
@@ -188,7 +299,15 @@ def main():
     provider = args.provider
     apikey = args.apikey
 
-    # Check if the provided path is valid
+    # If the provider requires an API key, it tries to use the saved key if the default value has not been replaced
+    if provider.lower() in ["openai", "groq"]:
+        env_var = get_env_var(provider)
+        if (apikey == "sk-" or not apikey) and os.environ.get(env_var):
+            apikey = os.environ.get(env_var)
+        elif (apikey == "sk-" or not apikey):
+            print(f"Error: O provider '{provider}' requer uma API key. Forneça-a via --apikey ou salve-a previamente usando --save-apikey.")
+            return
+
     if not os.path.isdir(repo_path):
         print(f"Error: the path '{repo_path}' is not a valid directory.")
         return

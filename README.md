@@ -37,7 +37,7 @@ pip install Commify
 ### Linux
 
 Make sure you have installed `Git`, `python3.10+`, `pipx` and `ollama` (ollama is optional)
-If don't, use this command:
+If you don't, use this command:
 
 ```bash
 sudo apt install git
@@ -65,6 +65,9 @@ commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_m
 
 ### Examples
 
+>[!WARNING]
+>In the future this section will be moved to **[docs/example-usage](https://github.com/Matuco19/Commify/blob/main/docs/example-usage.md)**
+
 Using Ollama Provider:
 
 ```bash
@@ -80,7 +83,49 @@ commify /path/to/repo --lang english --emoji True --model gpt-4o --provider g4f
 Using Openai Provider:
 
 ```bash
-commify /path/to/repo --lang english --emoji True --model gpt-4o --provider openai --apikey your-api-key
+commify /path/to/repo --lang english --emoji True --model gpt-4o --provider openai
+```
+
+Using Openai Provider Without Saving an Apikey:
+
+```bash
+commify /path/to/repo --lang english --emoji True --model gpt-4o --provider openai --apikey sk_...
+```
+
+Using Groq Provider:
+
+```bash
+commify /path/to/repo --lang english --emoji True --model llama-3.3-70b-versatile --provider groq
+```
+
+Using Groq Provider Without Saving an Apikey:
+
+```bash
+commify /path/to/repo --lang english --emoji True --model llama-3.3-70b-versatile --provider groq --apikey gsk_...
+```
+
+Setting an Apikey for Groq Provider:
+
+```bash
+commify --save-apikey groq gsk_...
+```
+
+Setting an Apikey for Openai Provider:
+
+```bash
+commify --save-apikey openai sk_...
+```
+
+Modify an Apikey for Groq Provider:
+
+```bash
+commify --mod-apikey groq gsk_...
+```
+
+Modify an Apikey for Openai Provider:
+
+```bash
+commify --mod-apikey openai sk_...
 ```
 
 Without Specifying The Repository Path:
@@ -103,10 +148,12 @@ commify /path/to/repo --debug --lang english --emoji True --model llama3.1 --pro
 - **`--provider`:** AI provider to use for generating messages (default: `ollama`). (required)
 - **`--emoji`:** Include emojis in the commit message (`True` or `False`, default: `True`).
 - **`--model`:** AI model to use for generating messages (default: `llama3.1`). (required)
-- **`--apikey`:** Apikey required to use the Openai provider (default: `sk-`). (Required only if you use the Openai provider)
 - **`--help`:** Display all available parameters and their descriptions.
 - **`--version`:** Display the installed Commify version.
 - **`--debug`:** Run Commify in Debug Mode. (It is not recommended if you don't know what you are doing.)
+- **`--apikey`:** A temporary apikey use for Openai or Groq API key to use (default: `sk-`).  
+- **`--save-apikey`:** Save API key for a provider. Ex: --save-apikey openai sk-...  
+- **`--mod-apikey`:** Modify API key for a provider. Ex: --mod-apikey groq gsk-...  
 
 ---
 
@@ -122,13 +169,60 @@ Once a message is generated, you'll be prompted to:
 
 ### Commify Providers
 
-Commify currently supports only 3 providers:
+Commify currently supports only 4 providers:
 
 - [ollama](https://ollama.com/): ollama is an open-source project that serves as a powerful and user-friendly platform for running LLMs on your local machine.
 - [gpt4free](https://github.com/xtekky/gpt4free): gpt4free is an AI-Based Software Package that Reverse-Engineers APIs to Grant Anyone Free Access to Popular and powerful AI Models.
 - [openai](https://platform.openai.com/): openAI is a cutting-edge research organization that works to push the limits of artificial intelligence in a variety of domains.
+- [groq](https://groq.com): Groq is an extremely fast AI response engine that can write factual and quoted responses in hundreds of words in less than a second.
 
 Feel free to submit a pull request or open an issue to add more providers!
+
+### Apikey Saving
+
+Commify allows you to save and modify API keys for certain providers (`openai` and `groq`). This can be useful if you frequently use these providers and want to avoid entering the API key each time you run Commify.
+
+#### Saving an API Key
+
+To save an API key for a provider, use the `--save-apikey` option followed by the provider name and the API key. For example:
+
+```bash
+commify --save-apikey openai sk-...
+```
+
+This will save the API key for the openai provider. You can also save an API key for the groq provider:
+
+```bash
+commify --save-apikey groq gsk-...
+```
+
+The saved API key will be stored in a file located at `~/.commify_env` and will be automatically used in future Commify runs.
+
+#### Modifying an API Key
+
+If you need to update an existing API key, use the `--mod-apikey` option followed by the provider name and the new API key. For example:
+
+```bash
+commify --mod-apikey openai sk-...
+```
+
+This will update the saved API key for the openai provider. Similarly, you can update the API key for the groq provider:
+
+```bash
+commify --mod-apikey groq gsk-...
+```
+
+#### Using a Temporary API Key
+
+If you prefer not to save the API key, you can provide it directly when running Commify using the `--apikey` option. For example:
+
+```bash
+commify /path/to/repo --provider openai --apikey sk-...
+```
+
+This will use the provided API key for the current run without saving it.
+
+Feel free to submit a pull request or open an issue if you have any suggestions or improvements for this feature!
 
 ---
 
@@ -137,9 +231,9 @@ Feel free to submit a pull request or open an issue to add more providers!
 Confirmed successful runs (with no errors) on the following:
 
 - **OS:**
-  - Windows11
-  - Windows10
-  - Ubuntu24.04.1LTS
+  - Windows 11
+  - Windows 10
+  - Ubuntu24.04.1 LTS
   - Linux Mint 22
 
 - **Python:**
@@ -154,6 +248,7 @@ Confirmed successful runs (with no errors) on the following:
   - gpt-4o-mini `G4F`
   - deepseek-r1 `Ollama`
   - Phi3.5 `Ollama`
+  - llama-3.3-70b-versatile `Groq`
 
 Let us know if it runs on your machine too!
 

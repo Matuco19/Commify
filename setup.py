@@ -10,6 +10,7 @@ with codecs.open(os.path.join(here, 'README.md'), encoding='utf-8') as fh:
 
 long_description = long_description.replace("[!NOTE]", "")
 long_description = long_description.replace("[!Caution]", "")
+long_description = long_description.replace("[!Warning]", "")
 
 setup(
     name='Commify',
@@ -31,7 +32,8 @@ setup(
         'g4f',
         'rich',
         'requests',
-        'openai'
+        'openai',
+        'groq'
     ],
     entry_points={
         'console_scripts': [
@@ -56,6 +58,10 @@ setup(
         'gpt4o',
         'gpt4-o',
         'gpt-4omni',
+        'o1',
+        'o3-mini',
+        'deepseek-r1',
+        'groq',
         'cli',
         'cli-app',
         'ollama',

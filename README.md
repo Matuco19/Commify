@@ -1,6 +1,6 @@
 # Commify
 
-Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. See [Commify](https://matuco19.com/Commify) website to know more. Don't forget to ⭐ the project!
+Commify is a command-line interface (CLI) tool that generates meaningful, structured commit messages for Git repositories using AI. By analyzing the staged changes (diff) in your repository, it creates commit messages that follow conventional commit guidelines, optionally including emojis for better context and readability. <!--See [Commify](https://matuco19.com/Commify) website to know more. --> Don't forget to ⭐ the project!
 
 >[!Caution]
 >Ollama provider can be slow without a good GPU or a very large AI model. It's not a Commify optimization problem.  
@@ -65,8 +65,12 @@ commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_m
 
 ### Examples
 
->[!WARNING]
->In the future this section will be moved to **[docs/example-usage](https://github.com/Matuco19/Commify/blob/main/docs/example-usage.md)**
+#### Basic Usage
+
+Commify supports multiple AI providers, from locally run (Ollama) to cloud-based (Groq, G4F & Openai)
+
+>[!NOTE]
+>See more example usage in documentation [docs/example-usage](https://github.com/Matuco19/Commify/blob/main/docs/example-usage.md)
 
 Using Ollama Provider:
 
@@ -86,46 +90,10 @@ Using Openai Provider:
 commify /path/to/repo --lang english --emoji True --model gpt-4o --provider openai
 ```
 
-Using Openai Provider Without Saving an Apikey:
-
-```bash
-commify /path/to/repo --lang english --emoji True --model gpt-4o --provider openai --apikey sk_...
-```
-
 Using Groq Provider:
 
 ```bash
 commify /path/to/repo --lang english --emoji True --model llama-3.3-70b-versatile --provider groq
-```
-
-Using Groq Provider Without Saving an Apikey:
-
-```bash
-commify /path/to/repo --lang english --emoji True --model llama-3.3-70b-versatile --provider groq --apikey gsk_...
-```
-
-Setting an Apikey for Groq Provider:
-
-```bash
-commify --save-apikey groq gsk_...
-```
-
-Setting an Apikey for Openai Provider:
-
-```bash
-commify --save-apikey openai sk_...
-```
-
-Modify an Apikey for Groq Provider:
-
-```bash
-commify --mod-apikey groq gsk_...
-```
-
-Modify an Apikey for Openai Provider:
-
-```bash
-commify --mod-apikey openai sk_...
 ```
 
 Without Specifying The Repository Path:
@@ -133,12 +101,6 @@ Without Specifying The Repository Path:
 ```bash
 cd /path/to/repo
 commify --lang english --emoji True --model llama3.1 --provider ollama
-```
-
-Using in Debug Mode:
-
-```bash
-commify /path/to/repo --debug --lang english --emoji True --model llama3.1 --provider ollama
 ```
 
 ### Arguments
@@ -249,6 +211,7 @@ Confirmed successful runs (with no errors) on the following:
   - deepseek-r1 `Ollama`
   - Phi3.5 `Ollama`
   - llama-3.3-70b-versatile `Groq`
+  - deepseek-r1-distill-llama-70b `Groq`
 
 Let us know if it runs on your machine too!
 

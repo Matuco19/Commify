@@ -3,3 +3,4 @@ Commify.egg-info
 __pycache__
 har_and_cookies
 tests.py
+commify/test_main.py

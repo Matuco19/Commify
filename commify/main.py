@@ -5,10 +5,13 @@ from time import sleep
 from threading import Thread
 from commify.version import __version__, _check_version
 import re
+from rich.console import Console
+from rich.markdown import Markdown
 
 g4f.debug.logging = False
 done = False
 ENV_FILE = os.path.expanduser("~/.commify_env")
+console = Console()
 
 # This function removes the thought of models that think, this is to ensure that the final commit is clean and concise
 def remove_think(prompt: str):
@@ -27,7 +30,8 @@ def load_env():
 def save_api_key(provider, api_key):
     env_var = get_env_var(provider)
     if not env_var:
-        print("Error: Only 'openai' and 'groq' providers are supported for saving API keys.")
+        md = Markdown("Error: Only 'openai' and 'groq' providers are supported for saving API keys.")
+        console.print(md, style="red")
         return
 
     # Load already saved API keys (if they exist)
@@ -49,7 +53,8 @@ def save_api_key(provider, api_key):
 def modify_api_key(provider, api_key):
     env_var = get_env_var(provider)
     if not env_var:
-        print("Error: Only the 'openai' and 'groq' providers are supported for modifying API keys.")
+        md = Markdown("Error: Only the 'openai' and 'groq' providers are supported for modifying API keys.")
+        console.print(md, style="red")
         return
 
     # Checks if the API key is already saved
@@ -61,7 +66,8 @@ def modify_api_key(provider, api_key):
                     k, v = line.strip().split("=", 1)
                     env_data[k] = v
         if env_var not in env_data:
-            print(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first.")
+            md = Markdown(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first.")
+            console.print(md, style="red")
             return
         # Update the API key
         env_data[env_var] = api_key
@@ -71,7 +77,8 @@ def modify_api_key(provider, api_key):
         os.environ[env_var] = api_key
         print(f"API key for provider '{provider}' successfully modified in environment variable '{env_var}'.")
     else:
-        print(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first.")
+        md = Markdown(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first.")
+        console.print(md, style="red")
 
 def get_env_var(provider):
     provider = provider.lower()
@@ -207,14 +214,12 @@ def _push_to_origin(repo):
         repo.git.push("origin")
         print("Changes successfully pushed to origin.")
     except Exception as e:
-        print(f"Error pushing to origin: {e}")
+        md = Markdown(f"Error pushing to origin: {e}")
+        console.print(md, style="red")
 
 # Function to display the help message
 def _display_help():
-    # markdown module
-    from rich.console import Console
-    from rich.markdown import Markdown
-    console = Console()
+    # markdown help message
     md = Markdown(f"""
 **Commify: You Should Commit Yourself**  
 Created by [Matuco19](https://matuco19.com)  
@@ -305,18 +310,21 @@ def main():
         if (apikey == "sk-" or not apikey) and os.environ.get(env_var):
             apikey = os.environ.get(env_var)
         elif (apikey == "sk-" or not apikey):
-            print(f"Error: O provider '{provider}' requer uma API key. Forneça-a via --apikey ou salve-a previamente usando --save-apikey.")
+            md = Markdown(f"Error: The provider '{provider}' requires an API key. Provide it via --apikey or save it in advance using --save-apikey.")
+            console.print(md, style="red")
             return
 
     if not os.path.isdir(repo_path):
-        print(f"Error: the path '{repo_path}' is not a valid directory.")
+        md = Markdown(f"Error: the path '{repo_path}' is not a valid directory.")
+        console.print(md, style="red")
         return
 
     # Initialize the repository
     try:
         repo = Repo(repo_path)
     except Exception as e:
-        print(f"Error initializing the repository: {e}")
+        md = Markdown(f"Error initializing the repository: {e}")
+        console.print(md, style="red")
         return
 
     # Check if there are staged changes to commit

@@ -57,6 +57,8 @@ After that, restart your terminal and you will already have Commify installed.
 
 ## 🏗️ Usage
 
+See the [Commify Documentation](https://github.com/Matuco19/Commify/blob/main/docs/) to see more example usage, milestones, and others.
+
 Run the `commify` CLI with the desired options:
 
 ```bash

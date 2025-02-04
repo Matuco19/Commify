@@ -6,6 +6,7 @@
 - [x] Improve AI System Prompt (V1.3)
 - [ ] make an executable file
 - [x] Publish to PyPi (V1.3.4)
-- [x] Add Apikey Saving Feature (v1.6)
+- [x] Add Apikey Saving Feature (V1.6)
+- [x] Speed Up CLI (V1.7)
 
 You can also suggest features in [Commify Issues](https://github.com/Matuco19/Commify/issues)!

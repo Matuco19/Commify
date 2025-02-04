@@ -6,8 +6,8 @@ We only support the following versions of Commify:
 
 | Version | Supported          |
 | ------- | ------------------ |
-| > 1.4.2   | :white_check_mark: |
-| < 1.4   | :x:                |
+| > 1.5   | :white_check_mark: |
+| < 1.4.5.2   | :x:                |
 | < 0.9-INDEV   | :x:                |
 
 ## Reporting a Vulnerability

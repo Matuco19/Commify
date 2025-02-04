@@ -1,14 +1,15 @@
 from git import Repo
-import argparse, os, g4f.debug
+import os
+from argparse import ArgumentParser
 from sys import stdout as terminal
 from time import sleep
 from threading import Thread
 from commify.version import __version__, _check_version
-import re
+from re import sub, DOTALL
 from rich.console import Console
 from rich.markdown import Markdown
 
-g4f.debug.logging = False
+
 done = False
 ENV_FILE = os.path.expanduser("~/.commify_env")
 console = Console()
@@ -16,7 +17,7 @@ console = Console()
 # This function removes the thought of models that think, this is to ensure that the final commit is clean and concise
 def remove_think(prompt: str):
     # Remove everything between <think> and </think> (including the tags themselves)
-    no_think = re.sub(r'<think>.*?</think>', '', prompt, flags=re.DOTALL)
+    no_think = sub(r'<think>.*?</think>', '', prompt, flags=DOTALL)
     return no_think.strip()
 
 def load_env():
@@ -27,11 +28,12 @@ def load_env():
                     key, val = line.strip().split("=", 1)
                     os.environ.setdefault(key, val)
 
-def save_api_key(provider, api_key):
+load_env()
+
+def save_api_key(provider: str, api_key: str):
     env_var = get_env_var(provider)
     if not env_var:
-        md = Markdown("Error: Only 'openai' and 'groq' providers are supported for saving API keys.")
-        console.print(md, style="red")
+        console.print(Markdown("Error: Only 'openai' and 'groq' providers are supported for saving API keys."), style="red")
         return
 
     # Load already saved API keys (if they exist)
@@ -50,11 +52,10 @@ def save_api_key(provider, api_key):
     os.environ[env_var] = api_key
     print(f"API key for provider '{provider}' successfully saved to environment variable '{env_var}'.")
 
-def modify_api_key(provider, api_key):
+def modify_api_key(provider: str, api_key: str):
     env_var = get_env_var(provider)
     if not env_var:
-        md = Markdown("Error: Only the 'openai' and 'groq' providers are supported for modifying API keys.")
-        console.print(md, style="red")
+        console.print(Markdown("Error: Only the 'openai' and 'groq' providers are supported for modifying API keys."), style="red")
         return
 
     # Checks if the API key is already saved
@@ -66,8 +67,7 @@ def modify_api_key(provider, api_key):
                     k, v = line.strip().split("=", 1)
                     env_data[k] = v
         if env_var not in env_data:
-            md = Markdown(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first.")
-            console.print(md, style="red")
+            console.print(Markdown(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first."), style="red")
             return
         # Update the API key
         env_data[env_var] = api_key
@@ -77,10 +77,9 @@ def modify_api_key(provider, api_key):
         os.environ[env_var] = api_key
         print(f"API key for provider '{provider}' successfully modified in environment variable '{env_var}'.")
     else:
-        md = Markdown(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first.")
-        console.print(md, style="red")
+        console.print(Markdown(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first."), style="red")
 
-def get_env_var(provider):
+def get_env_var(provider: str):
     provider = provider.lower()
     if provider == "openai":
         return "OPENAI_API_KEY"
@@ -97,7 +96,7 @@ def _animate():
             break
         terminal.write(f'\rCommify {__version__} | loading {c}')
         terminal.flush()
-        sleep(0.1)
+        sleep(0.05)
     terminal.write('\rDone!                     '+ "\n")
     terminal.flush()
 
@@ -214,8 +213,7 @@ def _push_to_origin(repo):
         repo.git.push("origin")
         print("Changes successfully pushed to origin.")
     except Exception as e:
-        md = Markdown(f"Error pushing to origin: {e}")
-        console.print(md, style="red")
+        console.print(Markdown(f"Error pushing to origin: {e}"), style="red")
 
 # Function to display the help message
 def _display_help():
@@ -225,7 +223,7 @@ def _display_help():
 Created by [Matuco19](https://matuco19.com)  
 [Discord Server](https://discord.gg/hp7yCxHJBw) | [Github](https://github.com/Matuco19/Commify) | [License](https://matuco19.com/licenses/MATCO-Open-Source)  
 Commify Version: {__version__}  
-Usage: Commify [path] [options]  
+Usage: Commify [path: optional] [options]  
 
 Options:  
 &nbsp;&nbsp;path              Path to the Git repository directory (optional, defaults to the current directory).  
@@ -251,7 +249,7 @@ Available AI Providers:
 # Main CLI function
 def main():
     global done
-    parser = argparse.ArgumentParser(description='CLI to generate commit messages and commit to the current repository.', add_help=False)
+    parser = ArgumentParser(description='CLI to generate commit messages and commit to the current repository.', add_help=False)
     parser.add_argument('path', type=str, nargs='?', help='Path to the Git repository directory (optional, defaults to the current directory).')
     parser.add_argument('--lang', type=str, default='english', help='Language for the commit message (default: english)')
     parser.add_argument('--emoji', type=bool, default=True, help='Specifies whether the commit message should include emojis (default: True)')
@@ -282,10 +280,9 @@ def main():
 
     # Enable debug mode if --debug is used
     if args.debug:
-        import logging
-        logging.basicConfig(level=logging.DEBUG)
-        g4f.debug.logging = True
-        logging.debug("Debug mode is enabled")
+        from logging import debug, basicConfig, DEBUG
+        basicConfig(level=DEBUG)
+        debug("Debug mode is enabled")
 
     # Show help information if --help is used
     if args.help:
@@ -295,7 +292,6 @@ def main():
         print(f"Commify {__version__}")
         return
 
-    load_env()
 
     repo_path = args.path or os.getcwd()
     lang = args.lang
@@ -310,21 +306,18 @@ def main():
         if (apikey == "sk-" or not apikey) and os.environ.get(env_var):
             apikey = os.environ.get(env_var)
         elif (apikey == "sk-" or not apikey):
-            md = Markdown(f"Error: The provider '{provider}' requires an API key. Provide it via --apikey or save it in advance using --save-apikey.")
-            console.print(md, style="red")
+            console.print(Markdown(f"Error: The provider '{provider}' requires an API key. Provide it via --apikey or save it in advance using --save-apikey."), style="red")
             return
 
     if not os.path.isdir(repo_path):
-        md = Markdown(f"Error: the path '{repo_path}' is not a valid directory.")
-        console.print(md, style="red")
+        console.print(Markdown(f"Error: the path '{repo_path}' is not a valid directory."), style="red")
         return
 
     # Initialize the repository
     try:
         repo = Repo(repo_path)
     except Exception as e:
-        md = Markdown(f"Error initializing the repository: {e}")
-        console.print(md, style="red")
+        console.print(Markdown(f"Error initializing the repository: {e}"), style="red")
         return
 
     # Check if there are staged changes to commit
@@ -336,7 +329,8 @@ def main():
 
         # Generate the commit message
         try:
-            while True:
+            while 1:
+                sleep(0.01)
                 commit_message = _generate_commit_message(diff, lang, emoji, model, provider, apikey)
                 commit_message = commit_message.replace('```', '')
                 print(f"\nGenerated commit message:\n{commit_message}\n")
@@ -346,7 +340,7 @@ def main():
 
                 if decision == 'y':
                     _commit_changes(repo, commit_message)
-                    print('Commit completed successfully.')
+                    console.print(Markdown('**Commit completed successfully.**'))
 
                     # Ask if the user wants to push the changes
                     push_decision = input("Do you want to push the commit to origin? (y = yes, n = no): ").lower()

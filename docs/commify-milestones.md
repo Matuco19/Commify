@@ -2,7 +2,7 @@
 
 Here only the main milestones of some versions will be mentioned, from the latest to the oldest version `(dates in MM/DD/YYYY order)`.
 
-## V1.7 ^02/04/2025^
+## V1.7 <sup>02/04/2025</sup>
 
 ### 💨 Speed Up
 
@@ -17,7 +17,7 @@ Commify documentation has become more detailed and easier to understand.
 
 ---
 
-## V1.6 ^02/03/2025^
+## V1.6 <sup>02/03/2025</sup>
 
 ### 🧠 Groq Provider
 
@@ -31,7 +31,7 @@ APIkey management arguments were created for the `Openai` and `Groq` providers, 
 
 ---
 
-## V1.5 ^12/19/2024^
+## V1.5 <sup>12/19/2024</sup>
 
 ### 🐞 Debug Mode
 
@@ -39,7 +39,7 @@ For development purposes, the `--debug` argument was created, it has the purpose
 
 ---
 
-## V1.4 ^12/12/2024^
+## V1.4 <sup>12/12/2024</sup>
 
 ### 📢 Update Checker
 
@@ -47,7 +47,7 @@ Added a Commify update checker to prevent security vulnerabilities.
 
 ---
 
-## V1.3 ^12/11/2024^
+## V1.3 <sup>12/11/2024</sup>
 
 ### ♾️ Multiples Providers
 
@@ -55,7 +55,7 @@ The Commify V1.3 version was a game changer for later versions, as the possibili
 
 ---
 
-## V1.2 ^12/06/2024^
+## V1.2 <sup>12/06/2024</sup>
 
 ### 🔓 open to Open-Source
 

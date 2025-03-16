@@ -74,5 +74,7 @@ setup(
         'openai',
         'python3',
         'gitpython',
+        'pollinations.ai',
+        'pollinations'
     ],
 )

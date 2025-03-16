@@ -28,6 +28,15 @@ Using Groq Provider:
 commify /path/to/repo --lang english --emoji True --model llama-3.3-70b-versatile --provider groq
 ```
 
+Using Pollinations.ai Provider:
+
+```bash
+commify /path/to/repo --lang english --emoji True --model openai-large --provider pollinations
+```
+
+>[!NOTE]
+> All pollinations models can be found [here](https://text.pollinations.ai/models)
+
 Without Specifying The Repository Path:
 
 ```bash

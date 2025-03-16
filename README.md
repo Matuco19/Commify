@@ -12,9 +12,35 @@ Commify is a command-line interface (CLI) tool that generates meaningful, struct
 
 ---
 
+## 📚 Table of Contents
+
+- [Commify](#commify)
+  - [📚 Table of Contents](#-table-of-contents)
+  - [✨ Features](#-features)
+  - [🛠️ Installation](#️-installation)
+    - [Windows](#windows)
+    - [Linux](#linux)
+  - [🏗️ Usage](#️-usage)
+    - [Examples](#examples)
+      - [Basic Usage](#basic-usage)
+    - [Arguments](#arguments)
+  - [💡 Features in Detail](#-features-in-detail)
+    - [Commit Message Review](#commit-message-review)
+    - [Commify Providers](#commify-providers)
+    - [Apikey Saving](#apikey-saving)
+      - [Saving an API Key](#saving-an-api-key)
+      - [Modifying an API Key](#modifying-an-api-key)
+      - [Using a Temporary API Key](#using-a-temporary-api-key)
+  - [🧩 Testing Information](#-testing-information)
+  - [💻 Developer Information](#-developer-information)
+  - [📑 License](#-license)
+  - [👋 Contributions](#-contributions)
+
+---
+
 ## ✨ Features
 
-- **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` local AI provider, `G4F` AI provider or `Openai` AI provider (Openai provider requires an apikey).
+- **AI-Powered Commit Messages:** Generate concise and structured commit messages using the `ollama` local AI provider, `G4F` AI provider, `Pollinations.ai` AI provider or `Openai` AI provider (Openai provider requires an apikey).
 - **Emoji Support:** Optionally include relevant emojis in commit messages.
 - **Language Support:** Generate commit messages in the language of your choice.
 - **Customizable Providers:** Specify the AI provider to use (g4f, ollama or openai).
@@ -98,6 +124,15 @@ Using Groq Provider:
 commify /path/to/repo --lang english --emoji True --model llama-3.3-70b-versatile --provider groq
 ```
 
+Using Pollinations.ai Provider:
+
+```bash
+commify /path/to/repo --lang english --emoji True --model openai-large --provider pollinations
+```
+
+>[!NOTE]
+> All pollinations models can be found [here](https://text.pollinations.ai/models)
+
 Without Specifying The Repository Path:
 
 ```bash
@@ -133,12 +168,13 @@ Once a message is generated, you'll be prompted to:
 
 ### Commify Providers
 
-Commify currently supports only 4 providers:
+Commify currently supports only5 providers:
 
 - [ollama](https://ollama.com/): ollama is an open-source project that serves as a powerful and user-friendly platform for running LLMs on your local machine.
 - [gpt4free](https://github.com/xtekky/gpt4free): gpt4free is an AI-Based Software Package that Reverse-Engineers APIs to Grant Anyone Free Access to Popular and powerful AI Models.
 - [openai](https://platform.openai.com/): openAI is a cutting-edge research organization that works to push the limits of artificial intelligence in a variety of domains.
 - [groq](https://groq.com): Groq is an extremely fast AI response engine that can write factual and quoted responses in hundreds of words in less than a second.
+- [pollinations.ai](https://pollinations.ai): Pollinations.AI is an open-source gen AI startup based in Berlin, providing the most easy-to-use, free text and image generation API available. No signups or API keys required.
 
 Feel free to submit a pull request or open an issue to add more providers!
 
@@ -214,6 +250,8 @@ Confirmed successful runs (with no errors) on the following:
   - Phi3.5 `Ollama`
   - llama-3.3-70b-versatile `Groq`
   - deepseek-r1-distill-llama-70b `Groq`
+  - openai-large (gpt-4o) `Pollinations`
+  - openai-reasoning (openai-o3) `Pollinations`
 
 Let us know if it runs on your machine too!
 

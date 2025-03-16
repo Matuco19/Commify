@@ -178,6 +178,18 @@ Diff to analyze:
             )
             commit_message = completion.choices[0].message.content.strip()
 
+        elif provider == 'pollinations':
+            import requests
+            response = requests.post('https://text.pollinations.ai/openai', json={
+                    "messages": [
+                        { "role": "system", "content": system_prompt }
+                    ],
+                    "model":  model
+                })
+            
+            result = response.json()
+            commit_message = result['choices'][0]['message']['content']
+
         else:
             raise ValueError(f"Error: You did not specify the provider or the provider is not currently available on Commify, if this is the case, do not hesitate to create an Issue or Pull Request to add the requested provider!")
         
@@ -191,9 +203,11 @@ Diff to analyze:
         elif provider == 'g4f':
             raise ValueError(f"Error: Gpt4free services are not available, contact gpt4free contributors for more information (https://github.com/xtekky/gpt4free). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
         elif provider == 'openai':
-            raise ValueError(f"Error: OpenAI services are not available, contact OpenAI for more information (https://openai.com). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
+            raise ValueError(f"Error: OpenAI services are not available, contact OpenAI Support for more information (https://openai.com). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
         elif provider == 'groq':
-            raise ValueError(f"Error: GroqCloud services are not available, contact Groq for more information (https://groq.com/). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
+            raise ValueError(f"Error: GroqCloud services are not available, contact Groq Support for more information (https://groq.com/). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
+        elif provider == 'pollinations':
+            raise ValueError(f"Error: Pollinations.ai services are not available, contact Pollinations Support for more information (https://pollinations.ai/). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
         else:
             raise ValueError(f"An unknown error occurred, report this to Commify Developer immediately at https://github.com/Matuco19/Commify/Issues. Error: \n{e}")
 
@@ -240,6 +254,7 @@ Options:
 Available AI Providers:
 - _ollama:_ Local AI provider, requires Ollama installed and running locally.
 - _g4f:_ Gpt4free AI provider, does not require an API key.
+- _pollinations.ai:_ Pollinations AI provider, does not require an API key.
 - _openai:_ OpenAI API provider, requires an API key.
 - _groq:_ GroqCloud AI provider, requires an API key.
 

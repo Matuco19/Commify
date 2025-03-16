@@ -251,7 +251,7 @@ Confirmed successful runs (with no errors) on the following:
   - llama-3.3-70b-versatile `Groq`
   - deepseek-r1-distill-llama-70b `Groq`
   - openai-large (gpt-4o) `Pollinations`
-  - openai-reasoning (openai-o3) `Pollinations`
+  - openai-reasoning (openai o3-mini) `Pollinations`
 
 Let us know if it runs on your machine too!
 

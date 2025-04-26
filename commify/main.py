@@ -1,3 +1,4 @@
+from random import randint
 from git import Repo
 import os
 from argparse import ArgumentParser
@@ -184,7 +185,9 @@ Diff to analyze:
                     "messages": [
                         { "role": "system", "content": system_prompt }
                     ],
-                    "model":  model
+                    "model":  model,
+                    "private": True,
+                    "seed": randint(0, 1000000),
                 })
             
             result = response.json()

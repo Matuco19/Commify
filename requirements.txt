@@ -7,3 +7,4 @@ rich
 requests
 openai
 groq
+google-generativeai

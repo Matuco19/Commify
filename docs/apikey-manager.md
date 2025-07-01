@@ -1,6 +1,6 @@
 # 🔑 Apikey Saving
 
-Commify allows you to save and modify API keys for certain providers (`openai` and `groq`). This can be useful if you frequently use these providers and want to avoid entering the API key each time you run Commify.
+Commify allows you to save and modify API keys for certain providers (`openai`, `groq` and `gemini`). This can be useful if you frequently use these providers and want to avoid entering the API key each time you run Commify.
 
 ## Saving an API Key
 
@@ -14,6 +14,12 @@ This will save the API key for the openai provider. You can also save an API key
 
 ```bash
 commify --save-apikey groq gsk-...
+```
+
+And if you want to save an API key for the `gemini` provider, you can do it like this:
+
+```bash
+commify --save-apikey gemini Alza...
 ```
 
 The saved API key will be stored in a file located at `~/.commify_env` and will be automatically used in future Commify runs.
@@ -30,6 +36,12 @@ This will update the saved API key for the openai provider. Similarly, you can u
 
 ```bash
 commify --mod-apikey groq gsk-...
+```
+
+Also, you can save or modify the API key for the `gemini` provider in the same way:
+
+```bash
+commify --save-apikey gemini Alza...
 ```
 
 ## Using a Temporary API Key

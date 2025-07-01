@@ -95,7 +95,7 @@ commify <path_to_repo> [--lang <language>] [--emoji <True/False>] [--model <AI_m
 
 #### Basic Usage
 
-Commify supports multiple AI providers, from locally run (Ollama) to cloud-based (Groq, G4F & Openai)
+Commify supports multiple AI providers, from locally run (Ollama) to cloud-based (Groq, Gemini, Pollinations.ai, Openai, and others). You can use it to generate commit messages in various languages and styles.
 
 >[!NOTE]
 >See more example usage in documentation [docs/example-usage](https://github.com/Matuco19/Commify/blob/main/docs/example-usage.md)
@@ -130,8 +130,16 @@ Using Pollinations.ai Provider:
 commify /path/to/repo --lang english --emoji True --model openai-large --provider pollinations
 ```
 
->[!NOTE]
-> All pollinations models can be found [here](https://text.pollinations.ai/models)
+Using Gemini Provider:
+
+```bash
+commify /path/to/repo --lang english --emoji True --model gemini-2.0-flash --provider gemini
+```
+
+>[!Caution]
+> All pollinations models can be found in [API model endpoint](https://text.pollinations.ai/models)
+> Warning: Pollinations.ai changed their API use, so you are allowed to use only the 'anonymous' tier models.
+> See [Provider Issues Commify](./docs/provider-issues.md#pollinationsai) documentation to see more about.
 
 Without Specifying The Repository Path:
 
@@ -175,12 +183,13 @@ Commify currently supports only5 providers:
 - [openai](https://platform.openai.com/): openAI is a cutting-edge research organization that works to push the limits of artificial intelligence in a variety of domains.
 - [groq](https://groq.com): Groq is an extremely fast AI response engine that can write factual and quoted responses in hundreds of words in less than a second.
 - [pollinations.ai](https://pollinations.ai): Pollinations.AI is an open-source gen AI startup based in Berlin, providing the most easy-to-use, free text and image generation API available. No signups or API keys required.
+- [gemini](https://ai.google.dev/gemini): Gemini is a family of AI models developed by Google DeepMind, designed to understand and generate text, images, and more.
 
 Feel free to submit a pull request or open an issue to add more providers!
 
 ### Apikey Saving
 
-Commify allows you to save and modify API keys for certain providers (`openai` and `groq`). This can be useful if you frequently use these providers and want to avoid entering the API key each time you run Commify.
+Commify allows you to save and modify API keys for certain providers (`openai`, `groq` and `gemini`). This can be useful if you frequently use these providers and want to avoid entering the API key each time you run Commify.
 
 #### Saving an API Key
 
@@ -194,6 +203,12 @@ This will save the API key for the openai provider. You can also save an API key
 
 ```bash
 commify --save-apikey groq gsk-...
+```
+
+And if you want to save an API key for the `gemini` provider, you can do it like this:
+
+```bash
+commify --save-apikey gemini Alza...
 ```
 
 The saved API key will be stored in a file located at `~/.commify_env` and will be automatically used in future Commify runs.
@@ -210,6 +225,12 @@ This will update the saved API key for the openai provider. Similarly, you can u
 
 ```bash
 commify --mod-apikey groq gsk-...
+```
+
+Also, you can save or modify the API key for the `gemini` provider in the same way:
+
+```bash
+commify --save-apikey gemini Alza...
 ```
 
 #### Using a Temporary API Key
@@ -250,8 +271,13 @@ Confirmed successful runs (with no errors) on the following:
   - Phi3.5 `Ollama`
   - llama-3.3-70b-versatile `Groq`
   - deepseek-r1-distill-llama-70b `Groq`
-  - openai-large `Pollinations`
+  - openai-large `Pollinations`*
   - openai-reasoning `Pollinations`
+  - gemini-2.0-flash `Gemini`
+  - gemini-2.5-pro `Gemini`
+  - gemini-2.5-flash `Gemini`
+  
+  *: See [Provider Issues Commify](./docs/provider-issues.md) documentation to see more about.
 
 Let us know if it runs on your machine too!
 

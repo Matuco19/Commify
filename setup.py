@@ -33,7 +33,8 @@ setup(
         'rich',
         'requests',
         'openai',
-        'groq'
+        'groq',
+        'google-generativeai'
     ],
     entry_points={
         'console_scripts': [
@@ -64,6 +65,9 @@ setup(
         'o4-mini',
         'o4',
         'deepseek-r1',
+        'gemini-2.5-flash',
+        'gemini-2.5-pro',
+        'gemini-2.0-flash',
         'groq',
         'cli',
         'cli-app',
@@ -78,6 +82,10 @@ setup(
         'python3',
         'gitpython',
         'pollinations.ai',
-        'pollinations'
+        'pollinations',
+        'google-generativeai',
+        'gemini',
+        'gemini-api',
+        'google-ai'
     ],
 )

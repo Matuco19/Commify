@@ -2,6 +2,28 @@
 
 Here only the main milestones of some versions will be mentioned, from the latest to the oldest version `(dates in MM/DD/YYYY order)`.
 
+## V1.9 <sup>07/01/2025</sup>
+
+### 🛠️ Refactor
+
+In version 1.9, Commify underwent a significant refactor to improve code quality and maintainability. This included restructuring the codebase, optimizing imports, and enhancing the overall architecture.
+
+---
+
+### ♊ Gemini Provider
+
+The Gemini provider was added in version 1.9, allowing users to utilize Gemini's capabilities within Commify. This provider is designed to be user-friendly and efficient, making it easier for developers to integrate Gemini into their workflows.
+
+### 🧪 Improve Execution Time
+
+In version 1.9, the execution time of Commify was improved by optimizing the code and reducing unnecessary delays and optmizing the codebase. This enhancement ensures that users can run Commify more efficiently, leading to faster results and a smoother experience.
+
+### 🔐 Added Basic Security Methods
+
+In version 1.9, the api-key management system has improved to support basic security methods.
+
+---
+
 ## V1.7 <sup>02/04/2025</sup>
 
 ### 💨 Speed Up

@@ -1,96 +1,17 @@
-from random import randint
-from git import Repo
-import os
 from argparse import ArgumentParser
-from sys import stdout as terminal
 from time import sleep
-from threading import Thread
+# commify internal imports
+from commify.utils import remove_think, provider_error_message, console, display_help, Markdown, randint, os
+from commify.git import get_diff, commit_changes, push_to_origin, Repo
+from commify.apikeymanager import save_api_key, modify_api_key, get_env_var, load_env
 from commify.version import __version__, _check_version
-from re import sub, DOTALL
-from rich.console import Console
-from rich.markdown import Markdown
-
 
 done = False
-ENV_FILE = os.path.expanduser("~/.commify_env")
-console = Console()
-
-# This function removes the thought of models that think, this is to ensure that the final commit is clean and concise
-def remove_think(prompt: str):
-    # Remove everything between <think> and </think> (including the tags themselves)
-    no_think = sub(r'<think>.*?</think>', '', prompt, flags=DOTALL)
-    return no_think.strip()
-
-def load_env():
-    if os.path.exists(ENV_FILE):
-        with open(ENV_FILE, "r") as f:
-            for line in f:
-                if "=" in line:
-                    key, val = line.strip().split("=", 1)
-                    os.environ.setdefault(key, val)
-
 load_env()
 
-def save_api_key(provider: str, api_key: str):
-    env_var = get_env_var(provider)
-    if not env_var:
-        console.print(Markdown("Error: Only 'openai' and 'groq' providers are supported for saving API keys."), style="red")
-        return
-
-    # Load already saved API keys (if they exist)
-    env_data = {}
-    if os.path.exists(ENV_FILE):
-        with open(ENV_FILE, "r") as f:
-            for line in f:
-                if "=" in line:
-                    k, v = line.strip().split("=", 1)
-                    env_data[k] = v
-    env_data[env_var] = api_key
-
-    with open(ENV_FILE, "w") as f:
-        for k, v in env_data.items():
-            f.write(f"{k}={v}\n")
-    os.environ[env_var] = api_key
-    print(f"API key for provider '{provider}' successfully saved to environment variable '{env_var}'.")
-
-def modify_api_key(provider: str, api_key: str):
-    env_var = get_env_var(provider)
-    if not env_var:
-        console.print(Markdown("Error: Only the 'openai' and 'groq' providers are supported for modifying API keys."), style="red")
-        return
-
-    # Checks if the API key is already saved
-    if os.path.exists(ENV_FILE):
-        env_data = {}
-        with open(ENV_FILE, "r") as f:
-            for line in f:
-                if "=" in line:
-                    k, v = line.strip().split("=", 1)
-                    env_data[k] = v
-        if env_var not in env_data:
-            console.print(Markdown(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first."), style="red")
-            return
-        # Update the API key
-        env_data[env_var] = api_key
-        with open(ENV_FILE, "w") as f:
-            for k, v in env_data.items():
-                f.write(f"{k}={v}\n")
-        os.environ[env_var] = api_key
-        print(f"API key for provider '{provider}' successfully modified in environment variable '{env_var}'.")
-    else:
-        console.print(Markdown(f"Error: No API key saved for provider '{provider}'. Use --save-apikey to save it first."), style="red")
-
-def get_env_var(provider: str):
-    provider = provider.lower()
-    if provider == "openai":
-        return "OPENAI_API_KEY"
-    elif provider == "groq":
-        return "GROQ_API_KEY"
-    else:
-        return None
-
-# Function to animate loading
-def _animate():
+def animate():
+    global done
+    from sys import stdout as terminal
     import itertools
     for c in itertools.cycle(['⣾ ', '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ']):
         if done:
@@ -101,11 +22,6 @@ def _animate():
     terminal.write('\rDone!                     '+ "\n")
     terminal.flush()
 
-# Function to get the diff of the current repository
-def _get_diff(repo):
-    return repo.git.diff('--cached')
-
-# Function to generate the commit message using providers
 def _generate_commit_message(diff, lang='english', emoji=True, model='llama3.1', provider='ollama', apikey='sk-'):
     global done
     emoji_instructions = (
@@ -135,10 +51,10 @@ Diff to analyze:
 {diff}
 """
     try:
-        # Start loading animation in a separate thread
-        t = Thread(target=_animate)
+        from threading import Thread
+        t = Thread(target=animate)
         t.start()
-        # default ollama provider (run in local machine)
+        # ollama provider (local provider)
         if provider == 'ollama':
             import ollama
             response = ollama.chat(model=model, messages=[
@@ -167,6 +83,7 @@ Diff to analyze:
                 ]
             )
             commit_message = response.choices[0].message.content.strip()
+        # groq provider (groq api with apikey use)
         elif provider == 'groq':
             from groq import Groq
             client = Groq(api_key=apikey)
@@ -178,21 +95,30 @@ Diff to analyze:
                 stream=False,
             )
             commit_message = completion.choices[0].message.content.strip()
-
+        # pollinations provider (pollinations api without apikey use)
         elif provider == 'pollinations':
             import requests
             response = requests.post('https://text.pollinations.ai/openai', json={
-                    "messages": [
-                        { "role": "system", "content": system_prompt }
-                    ],
-                    "model":  model,
-                    "private": True,
-                    "seed": randint(0, 1000000),
-                })
-            
+                "messages": [
+                    { "role": "system", "content": system_prompt }
+                ],
+                "model":  model,
+                "private": True,
+                "seed": randint(0, 100000),
+                "referrer": "Commify"
+            })
             result = response.json()
-            commit_message = result['choices'][0]['message']['content']
-
+            try:
+                commit_message = result['choices'][0]['message']['content'].strip()
+            except:
+                raise ValueError(result['error']) # tier models issue (pollinations.ai API recent changes) - in future maybe i need to add an optional apikey mode for pollinations.ai to users use others tiers models
+        # gemini provider (gemini api with apikey use)
+        elif provider == 'gemini':
+            import google.generativeai as genai
+            genai.configure(api_key=apikey)
+            model_gemini = genai.GenerativeModel(model)
+            response = model_gemini.generate_content(system_prompt)
+            commit_message = response.text.strip()
         else:
             raise ValueError(f"Error: You did not specify the provider or the provider is not currently available on Commify, if this is the case, do not hesitate to create an Issue or Pull Request to add the requested provider!")
         
@@ -201,70 +127,11 @@ Diff to analyze:
         return remove_think(commit_message)
     
     except Exception as e:
-        if provider == 'ollama':
-            raise ValueError(f"Error: Is it if you have Ollama installed/running? Or perhaps the requested AI model ({model}) is not installed on your system. Detailed error: \n{e}")
-        elif provider == 'g4f':
-            raise ValueError(f"Error: Gpt4free services are not available, contact gpt4free contributors for more information (https://github.com/xtekky/gpt4free). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
-        elif provider == 'openai':
-            raise ValueError(f"Error: OpenAI services are not available, contact OpenAI Support for more information (https://openai.com). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
-        elif provider == 'groq':
-            raise ValueError(f"Error: GroqCloud services are not available, contact Groq Support for more information (https://groq.com/). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
-        elif provider == 'pollinations':
-            raise ValueError(f"Error: Pollinations.ai services are not available, contact Pollinations Support for more information (https://pollinations.ai/). Or perhaps the requested AI model ({model}) is not available. Detailed error: \n{e}")
-        else:
-            raise ValueError(f"An unknown error occurred, report this to Commify Developer immediately at https://github.com/Matuco19/Commify/Issues. Error: \n{e}")
-
+        provider_error_message(provider, e, model)
     finally:
-        # Stop the animation
         done = True
         t.join()
 
-
-
-def _commit_changes(repo, commit_message):
-    repo.git.commit('-m', commit_message)
-
-# Function to push the commit to the remote origin
-def _push_to_origin(repo):
-    try:
-        repo.git.push("origin")
-        print("Changes successfully pushed to origin.")
-    except Exception as e:
-        console.print(Markdown(f"Error pushing to origin: {e}"), style="red")
-
-# Function to display the help message
-def _display_help():
-    # markdown help message
-    md = Markdown(f"""
-**Commify: You Should Commit Yourself**  
-Created by [Matuco19](https://matuco19.com)  
-[Discord Server](https://discord.gg/hp7yCxHJBw) | [Github](https://github.com/Matuco19/Commify) | [License](https://matuco19.com/licenses/MATCO-Open-Source)  
-Commify Version: {__version__}  
-Usage: Commify [path: optional] [options]  
-
-Options:  
-&nbsp;&nbsp;path              Path to the Git repository directory (optional, defaults to the current directory).  
-&nbsp;&nbsp;--lang            Language for the commit message (default: english).  
-&nbsp;&nbsp;--emoji           Specifies whether the commit message should include emojis (True/False).  
-&nbsp;&nbsp;--model           The AI model to use for generating commit messages (default: llama3.1).  
-&nbsp;&nbsp;--provider        The AI provider to use for generating commit messages (default: ollama).  
-&nbsp;&nbsp;--apikey          A temp apikey use for Openai or Groq API key to use (default: sk-).  
-&nbsp;&nbsp;--save-apikey     Save API key for a provider. Ex: --save-apikey openai sk-...  
-&nbsp;&nbsp;--mod-apikey      Modify API key for a provider. Ex: --mod-apikey groq gsk-...  
-&nbsp;&nbsp;--help            Displays this help message.  
-&nbsp;&nbsp;--version         Displays the current version of Commify.  
-
-Available AI Providers:
-- _ollama:_ Local AI provider, requires Ollama installed and running locally.
-- _g4f:_ Gpt4free AI provider, does not require an API key.
-- _pollinations.ai:_ Pollinations AI provider, does not require an API key.
-- _openai:_ OpenAI API provider, requires an API key.
-- _groq:_ GroqCloud AI provider, requires an API key.
-
-    """)
-    console.print(md)
-
-# Main CLI function
 def main():
     global done
     parser = ArgumentParser(description='CLI to generate commit messages and commit to the current repository.', add_help=False)
@@ -274,21 +141,17 @@ def main():
     parser.add_argument('--model', type=str, default='llama3.1', help='The AI model to use for generating commit messages (default: llama3.1)')
     parser.add_argument('--provider', type=str, default='ollama', help='The AI provider to use for generating commit messages (default: ollama)')
     parser.add_argument('--apikey', type=str, default='sk-', help='A temporary API key to use for providers that require an API key (default: sk-)')
-    parser.add_argument('--save-apikey', nargs=2, metavar=('PROVIDER', 'APIKEY'), help='Save API key for a provider (only openai and groq supported).')
-    parser.add_argument('--mod-apikey', nargs=2, metavar=('PROVIDER', 'APIKEY'), help='Modify API key for a provider (only openai and groq supported).')
+    parser.add_argument('--save-apikey', nargs=2, metavar=('PROVIDER', 'APIKEY'), help='Save API key for a provider (only openai, groq, and gemini supported).')
+    parser.add_argument('--mod-apikey', nargs=2, metavar=('PROVIDER', 'APIKEY'), help='Modify API key for a provider (only openai, groq, and gemini supported).')
     parser.add_argument('--help', action='store_true', help='Displays the help information')
     parser.add_argument('--debug', action='store_true', help='Enables debug mode')
     parser.add_argument('--version', action='store_true', help='Displays the Commify version')
 
     args = parser.parse_args()
-
-    # If user uses --save-apikey, process and exit
     if args.save_apikey:
         provider, api_key = args.save_apikey
         save_api_key(provider, api_key)
         return
-
-    # If user uses --mod-apikey, process and exit
     if args.mod_apikey:
         provider, api_key = args.mod_apikey
         modify_api_key(provider, api_key)
@@ -296,20 +159,16 @@ def main():
 
     _check_version()
 
-    # Enable debug mode if --debug is used
     if args.debug:
         from logging import debug, basicConfig, DEBUG
         basicConfig(level=DEBUG)
         debug("Debug mode is enabled")
-
-    # Show help information if --help is used
     if args.help:
-        _display_help()
+        display_help()
         return
     if args.version:
         print(f"Commify {__version__}")
-        return
-
+        return 
 
     repo_path = args.path or os.getcwd()
     lang = args.lang
@@ -318,34 +177,30 @@ def main():
     provider = args.provider
     apikey = args.apikey
 
-    # If the provider requires an API key, it tries to use the saved key if the default value has not been replaced
-    if provider.lower() in ["openai", "groq"]:
+    if provider.lower() in ["openai", "groq", "gemini"]:
         env_var = get_env_var(provider)
-        if (apikey == "sk-" or not apikey) and os.environ.get(env_var):
+        if (apikey == "sk-" or apikey == "gsk-" or apikey == "Alza" or not apikey) and os.environ.get(env_var):
             apikey = os.environ.get(env_var)
-        elif (apikey == "sk-" or not apikey):
-            console.print(Markdown(f"Error: The provider '{provider}' requires an API key. Provide it via --apikey or save it in advance using --save-apikey."), style="red")
+        elif (apikey == "sk-" or apikey == "gsk-" or apikey == "Alza" or not apikey):
+            console.print(Markdown(f"Error: No API key found for provider '{provider}'. Use --save-apikey to save it or provide it with --apikey."), style="red")
             return
 
     if not os.path.isdir(repo_path):
         console.print(Markdown(f"Error: the path '{repo_path}' is not a valid directory."), style="red")
         return
 
-    # Initialize the repository
+    # initialize the repository
     try:
         repo = Repo(repo_path)
     except Exception as e:
         console.print(Markdown(f"Error initializing the repository: {e}"), style="red")
         return
 
-    # Check if there are staged changes to commit
     if repo.is_dirty(untracked_files=True):
-        diff = _get_diff(repo)
+        diff = get_diff(repo)
         if not diff:
             print('No changes have been staged for commit. Could it be if you forgot to run "git add ."?')
             return
-
-        # Generate the commit message
         try:
             while 1:
                 sleep(0.01)
@@ -353,17 +208,15 @@ def main():
                 commit_message = commit_message.replace('```', '')
                 print(f"\nGenerated commit message:\n{commit_message}\n")
 
-                # Ask the user if they want to accept the message
                 decision = input("Do you accept this commit message? (y = yes, n = no, c = cancel): ").lower()
 
                 if decision == 'y':
-                    _commit_changes(repo, commit_message)
+                    commit_changes(repo, commit_message)
                     console.print(Markdown('**Commit completed successfully.**'))
 
-                    # Ask if the user wants to push the changes
                     push_decision = input("Do you want to push the commit to origin? (y = yes, n = no): ").lower()
                     if push_decision == 'y':
-                        _push_to_origin(repo)
+                        push_to_origin(repo)
                     else:
                         print("Changes were not pushed.")
                     break

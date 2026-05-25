@@ -176,7 +176,7 @@ Once a message is generated, you'll be prompted to:
 
 ### Commify Providers
 
-Commify currently supports only5 providers:
+Commify currently supports only 6 providers:
 
 - [ollama](https://ollama.com/): ollama is an open-source project that serves as a powerful and user-friendly platform for running LLMs on your local machine.
 - [gpt4free](https://github.com/xtekky/gpt4free): gpt4free is an AI-Based Software Package that Reverse-Engineers APIs to Grant Anyone Free Access to Popular and powerful AI Models.

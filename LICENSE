@@ -1,25 +1,120 @@
-# MATCO-Open-Source LICENSE
+MATCO-OSS 2.0 LICENSE
+License-Identifier: MATCO-OSS-2.0
 
-## Version 1.0
+Copyright (c) 2026 Matuco19, Matuco19 Studio and Contributors
 
-This license applies exclusively to software and projects developed and maintained by **Matuco19** and **Matuco19 Studio**, including but not limited to repositories found on [GitHub Matuco19 Studio](https://github.com/Matuco19-Studio), [GitHub Matuco19](https://github.com/Matuco19), and official websites such as [matuco19.com](https://matuco19.com). By using, contributing to, copying, modifying, or distributing software under this license, you agree to abide by the terms set forth below.
+This license applies exclusively to software and projects originally developed, authored, maintained, or officially distributed by **Matuco19** and **Matuco19 Studio**, including but not limited to any source code, documentation, releases, build artifacts, and related materials published under this license by the copyright holders. By using, copying, modifying, contributing to, distributing, or providing network access to a work licensed under this license, you agree to the terms below.
 
-1. **Freedom to Contribute**  
-   You are free to contribute to the project, including improving, fixing, or extending its functionality, as long as you comply with the other terms of this license.
+1. Definitions
 
-2. **No Ownership or Rebranding**  
-   You are prohibited from rebranding or naming the project as your own. The project must always be attributed to **Matuco19** or **Matuco19 Studio**. You may not modify the software in any way to make it appear as though the project or its code is owned by you.
+1.1. "Copyright Holder" means the person or entity identified in the copyright notices accompanying the Licensed Work, in most cases being Matuco19 and/or Matuco19 Studio.
 
-3. **Closed Source or License Change**  
-   The project using this license has the complete freedom to transition to a closed-source model or change to the **MATCO License** (as described in the previous MATCO License). Once changed, the project is no longer governed by the MATCO-Open-Source License and may use a different license as determined by the project maintainers.
+1.2. "Licensed Work" means the specific software or project released under this license by the copyright holder, together with the source code, documentation, and other materials distributed with it under this license.
 
-4. **Modification and Redistribution**  
-   You may modify and redistribute the software, provided that the original author(s) and contributors are credited appropriately. However, any redistribution of the modified version of the software must include the same license and adhere to the same restrictions.
+1.3. "Modified Work" means any work that copies, adapts, translates, merges, incorporates, or otherwise includes any portion of the Licensed Work in a way that requires permission under copyright law.a
 
-5. **No Use of This License Without Permission**  
-   This license is exclusively available for projects and software created and maintained by **Matuco19** and **Matuco19 Studio**. No individual, organization, or entity is permitted to use this license for their own projects unless explicitly granted written permission by **Matuco19**.
+1.4. "Independent Work" means a separate work that does not copy, adapt, incorporate, or derive from the Licensed Work, and that merely interoperates with it, refers to it, or is compatible with it.
 
-6. **Legal Enforcement**  
-   Violation of the terms of this license may result in legal action. **Matuco19** and **Matuco19 Studio** reserve the right to pursue legal remedies in accordance with the laws of the United States of America (California).
+1.5. "Distribution" means making the Licensed Work or a Modified Work available to any third party, whether in source form, binary form, executable form, container form, package form, or any other form.
 
-By contributing to, using, or distributing software under this license, you acknowledge that you have read, understood, and agreed to be bound by the terms of the **MATCO-Open-Source LICENSE**. See more in <https://matuco19.com/licenses/MATCO-Open-Source>.
+1.6. "Network Use" means allowing users to interact with the Licensed Work or a Modified Work through a network, including websites, APIs, SaaS services, remote applications, hosted tools, serverless functions, clusters, containers, and similar systems.
+
+1.7. "Corresponding Source" means the complete source code and all materials necessary to build, install, run, and modify the version of the Licensed Work or Modified Work that is distributed or made available, excluding general-purpose tools not part of the work itself.
+
+2. Grant of Rights
+
+Subject to the terms of this license, Matuco19 and Matuco19 Studio grant you a worldwide, royalty-free, non-exclusive, irrevocable (except as provided under Section 12) license to use, reproduce, study, modify, and distribute the Licensed Work. This license is intended to preserve the freedom to use the software while requiring that derivative and network-accessible versions remain free and available under the same terms. 
+
+3. Source Availability
+
+If you distribute the Licensed Work or any Modified Work, you must provide the Corresponding Source to every recipient at no additional charge, in a format that permits recipients to build, inspect, modify, and redistribute the same version.
+
+If you distribute the Licensed Work or any Modified Work in binary, executable, container, packaged, or other compiled form, you must make the Corresponding Source available with the distribution or through a durable written offer that remains valid for as long as you distribute that version and for at least three years after the last distribution of that version.
+
+4. Copyleft Requirement
+
+Any Modified Work that copies, adapts, incorporates, merges with, or is otherwise based on the Licensed Work, in whole or in part, must be licensed and distributed as a whole under this same MATCO-OSS 2.0 LICENSE, to the extent permitted by applicable law. This requirement does not apply to Independent Works that merely interoperate with the Licensed Work or are not themselves Modified Works.
+
+You may not impose any additional restrictions on recipients beyond those contained in this license.
+
+5. Network Copyleft
+
+If you make the Licensed Work or any Modified Work available for use over a network, you must offer every user of that network service the Corresponding Source for the exact version of the service-side software actually used to provide the service.
+
+For purposes of this section, the service-side software includes all server-side components that are part of the Licensed Work or Modified Work, including but not limited to microservices, APIs, worker processes, containers, configuration files, and server-side scripts necessary to reproduce the user-facing service, excluding passwords, cryptographic keys, access credentials, confidential deployment data, and other security-sensitive information not required to modify the software.
+
+This section does not require disclosure of unrelated software that is not part of the Licensed Work or a Modified Work.
+
+6. Attribution and Notice Preservation
+
+You must preserve all copyright notices, license notices, author attributions, contributor attributions, warranty disclaimers, and other legal notices present in the Licensed Work.
+
+You must clearly state that the Licensed Work is based on or derived from Matuco19 and/or Matuco19 Studio where applicable.
+
+You may not remove, hide, or alter existing attribution in a way that misrepresents the origin, authorship, or maintenance history of the Licensed Work.
+
+7. Names, Marks, and Project Identity
+
+This license does not grant any right to use the trademarks, service marks, logos, or official brand identities of Matuco19 or Matuco19 Studio except as reasonably necessary to identify the origin of the Licensed Work and with proper attribution. Any fork, derivative work, or redistribution must avoid confusing users about official sponsorship, endorsement, or ownership. Attribution does not imply sponsorship, endorsement or related statements. Nothing in this section prohibits identifying the Licensed Work as the origin of a Modified Work.
+
+You may not remove required copyright notices, attribution notices, or statements identifying the Licensed Work as the origin of the Modified Work.
+
+8. Contributions
+
+You are encouraged to contribute improvements, bug fixes, translations, documentation, tests, extensions, and other enhancements to the Licensed Work, provided those contributions are compatible with this license and do not violate the terms of this license.
+
+By submitting a contribution for inclusion in the Licensed Work, you grant the copyright holder and its successors a worldwide, royalty-free, non-exclusive, perpetual, irrevocable license to use, reproduce, modify, incorporate, distribute, sublicense, and otherwise exploit that contribution as part of the Licensed Work or any future version of it, to the extent of your rights in that contribution. Contributors acknowledge that their contributions may be incorporated into future versions released under different licensing terms by the copyright holder.
+
+If you do not have the right to grant a contribution under this section, you must not submit it.
+
+9. Patent Grant
+
+To the extent permitted by law, each contributor grants you a perpetual, worldwide, non-exclusive, royalty-free patent license under the contributor’s patent claims that would be necessarily infringed by the contributor’s modifications to the Licensed Work.
+
+If you initiate patent litigation alleging that the Licensed Work or a contribution incorporated into it infringes a patent, the patent license granted to you under this section terminates as of the date the litigation is filed.
+
+10. No Additional Restrictions
+
+You may not apply further legal, technical, contractual, or digital restrictions to the Licensed Work or any Modified Work that would prevent recipients from exercising the rights granted by this license.
+
+This includes, without limitation, DRM, access controls, contract terms, platform terms, source withholding, or any other mechanism that would restrict copying, studying, modifying, or redistributing the Licensed Work in the manner allowed by this license.
+
+11. Relicensing by the Original Maintainers
+
+The copyright holder may publish future versions of this license. A later version does not automatically apply to a version of the Licensed Work already distributed under this version 2.0 unless the copyright holder expressly states otherwise in writing.
+
+The copyright holder of the Licensed Work may choose to publish future versions of the project under a different license, including a closed-source license, for versions they control and distribute themselves. However, any version already released under this MATCO-OSS 2.0 LICENSE remains governed by this license for all recipients of that version, unless an applicable copyright holder expressly grants different permission in writing.
+
+12. Termination
+
+Any violation of this license automatically terminates your rights under this license unless the violation is cured within 30 days after you become aware of the violation, where cure is legally possible. Upon cure of the violation within the applicable period, the license is automatically reinstated.
+
+If your rights terminate, you must immediately stop distributing the Licensed Work or the Modified Work until your rights are restored.
+
+All sections that by their nature should survive termination, including attribution, warranty disclaimer, limitation of liability, and enforcement, survive termination.
+
+13. Disclaimer of Warranty
+
+THE LICENSED WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, OR CONTINUOUS OPERATION.
+
+YOU USE THE LICENSED WORK AT YOUR OWN RISK. THE AUTHORS, CONTRIBUTORS, MAINTAINERS, AND DISTRIBUTORS ARE NOT RESPONSIBLE FOR ANY DAMAGE, LOSS OF DATA, BUSINESS INTERRUPTION, SYSTEM FAILURE, SECURITY INCIDENT, OR OTHER HARM ARISING FROM THE USE OR INABILITY TO USE THE LICENSED WORK, TO THE MAXIMUM EXTENT PERMITTED BY LAW.
+
+14. Limitation of Liability
+
+IN NO EVENT SHALL MATUCO19, MATUCO19 STUDIO, OR ANY CONTRIBUTOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATING TO THE LICENSED WORK, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES, TO THE MAXIMUM EXTENT PERMITTED BY LAW.
+
+15. Enforcement
+
+Violations of this license may result in legal action or other remedies available under applicable law.
+
+Any copyright holder may enforce this license and protect their rights in any jurisdiction where the Licensed Work is used, distributed, or otherwise implicated.
+
+16. Acceptance
+
+By contributing to, using, copying, modifying, distributing, or providing network access to the Licensed Work, you acknowledge that you have read, understood, and agreed to be bound by the terms of the MATCO-OSS 2.0 LICENSE.
+
+17. Entire Agreement
+
+This license constitutes the entire agreement governing the use of the Licensed Work, except where a separate written agreement signed by the applicable copyright holder explicitly states otherwise.
+
+If any provision of this license is held unenforceable, the remaining provisions shall remain in full force and effect.

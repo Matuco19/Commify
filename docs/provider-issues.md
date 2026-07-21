@@ -35,7 +35,7 @@ Recent API changes of pollinations.ai brings the `tier` system. Some models, Lik
   },
 ```
 
-I (Matuco19) I will solve this problem by adding support for adding Apikeys optional to the Polinations provider. To create your Apikey, you need to follow the steps of [this website](https://auth.pollinations.ai/). But for now, only anonymous tier models works in Commify.
+I (Matuco19) will solve this problem by adding support for adding Apikeys optional to the Polinations provider. To create your Apikey, you need to follow the steps of [this website](https://auth.pollinations.ai/). But for now, only anonymous tier models works in Commify.
 
 ---
 
